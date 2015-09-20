@@ -54,7 +54,7 @@ public class data_load {
 		while (in.read(buffer)!=-1);
 		byte var;
 		int unsignedInteger; 
-		for (int i=0;i<3073000;i++)
+		for (int i=0;i<fileLength;i++)
 			{
 			var = buffer [i];
 			unsignedInteger = var & 0xFF;
@@ -99,12 +99,12 @@ public class data_load {
 		String filePath;
 
 		int countRow=0;
-		for (int i=1; i<2; i++)
+		for (int i=1; i<6; i++)
 			{
 			filePath=path+fileName+(String.valueOf(i))+".bin";
-			dobj2=load_cifar_batch(filePath,1000);
+			dobj2=load_cifar_batch(filePath,10000);
 
-			for (int j=0;j<1000;j++)
+			for (int j=0;j<10000;j++)
 				{
 				dobj1.objXTrain.finalmatrix[countRow]=dobj2.objXTrain.finalmatrix[j].clone();
 				dobj1.objYTrain.finalmatrix[countRow]=dobj2.objYTrain.finalmatrix[j].clone();
@@ -114,8 +114,8 @@ public class data_load {
 		countRow=0;
 		fileName="test_batch";
 		filePath=path+fileName+".bin";
-		dobj2=load_cifar_batch(filePath,1000);
-		for (int j=0;j<1000;j++)
+		dobj2=load_cifar_batch(filePath,10000);
+		for (int j=0;j<10000;j++)
 			{
 			dobj1.objXTest.finalmatrix[countRow]=dobj2.objXTrain.finalmatrix[j].clone();
 			dobj1.objYTest.finalmatrix[countRow]=dobj2.objYTrain.finalmatrix[j].clone();
