@@ -390,7 +390,91 @@ static int get_Row_Size(double [][] matrix){
 		return matrix;
 	}
           
-          
+        /**
+     * Adding two matrices
+     * @param mat1 
+     * @param mat2
+     * @return
+     */
+    public static numjava add(numjava mat1, numjava mat2)
+    {
+    	// check for matrix or vector
+    	numjava mat = null;
+      	if (mat2.M==1)
+    	{
+    		try{
+    			
+        		if (mat1.N == mat2.N)
+	    		{
+		    		mat = new numjava(mat1.M,mat1.N);
+		    		for (int i=0;i<mat1.M;i++)
+		    		{
+		    			for (int j=0;j<mat1.N;j++)
+		    			{
+		    				mat.finalmatrix[i][j]= mat1.finalmatrix[i][j] + mat2.finalmatrix[0][j];
+		    			}
+		    		}
+	    		}
+    		}
+    		catch (Exception e)
+        	{
+        		
+        		System.out.println("Number of columns should match");
+        	}
+        }
+    		
+    	else if (mat2.N==1)
+    	{
+    		
+	    	try
+	    	{
+	    		
+	    		if (mat1.M==mat2.M)
+	    		{	
+	    			mat = new numjava (mat1.N,mat1.N);
+		    		for (int j=0;j<mat1.N;j++)
+		    		{
+		    			for (int i=0; i<mat1.M;i++)
+		    			{
+		    				mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] + mat2.finalmatrix[i][0];
+						}
+		    		}
+	    		}
+	    	}
+	    	catch (Exception e)
+	    	{
+	    	
+	    		System.out.println("Numbers of rows should match");
+	    	}
+	    	
+    	}
+    	
+    	else 
+    	{
+    		
+    		try
+    		{
+	    		if (mat1.M==mat2.M && mat1.N==mat2.N)
+	    		{	
+	    			mat = new numjava (mat1.M,mat1.N);
+	    			for (int i=0;i<mat1.M;i++)
+	    			{
+	    				for (int j=0;j<mat1.N;j++)
+	    				{
+	    					mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] + mat2.finalmatrix[i][j];
+	    				}
+	    			}
+	    		}
+    		}
+	    	catch (Exception e)
+	    	{
+	    	
+	    		System.out.println("Numbers of rows and colums should match");
+	    	}
+    	}
+    	return mat;
+    }
+  
           
           
     public static void main(String args[])
