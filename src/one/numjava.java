@@ -474,6 +474,61 @@ static int get_Row_Size(double [][] matrix){
     	}
     	return mat;
     }
+     /*
+	* To get sum of elements along row or column
+	* axis = 0 : sum along row 
+	* axis = 1 : sum along column
+	*/
+	public static numjava sum(numjava mat1, int axis)
+	{
+		numjava mat = null;
+		float sum = 0;
+		try 
+		{
+
+			if (mat1.finalmatrix!=null)
+			{
+				if (axis == 0)
+				{
+
+					// sum along row axis
+					mat = new numjava(1,mat1.N);
+					for (int j = 0 ;j<mat1.M ; j++)
+					{
+						for (int i = 0; i<mat1.N; i++)
+						{
+							sum = sum + mat1.finalmatrix[i][j];	
+						}
+						mat.finalmatrix[0][j] = sum;
+					}
+
+				}
+				else if (axis == 1) 
+				{
+					// add along column axis
+
+					mat = new numjava(mat1.M,1);
+					for (int i = 0; i< mat1.M; i++)
+					{
+						for (int j = 0; j<mat1.N; j++)
+						{
+							sum = sum + mat1.finalmatrix[i][j]
+						}
+						mat.finalmatrix[i][0] = sum;
+					}
+
+				}
+
+			}
+		}
+		catch (NullPointerException e)
+		{
+			System.out.println("Null pointer exception");
+		}
+
+		return mat;
+	}
+
   
           
           
