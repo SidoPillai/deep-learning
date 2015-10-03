@@ -1,6 +1,10 @@
 import java.util.*;
 
-
+/*
+ * The class creates modular structure of all the layers of convolutionla neural nets
+ *  @author suhaspillai
+ *  @version 2-Oct-2015	
+ */
 public class layers {
 
 	Map<String,numjava> cache;
