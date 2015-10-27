@@ -528,8 +528,156 @@ static int get_Row_Size(double [][] matrix){
 
 		return mat;
 	}
+	
+	/*
+	 * The functionis used to convert image to column. (im2col)
+	 *
+	 */
+	public static numjava im2col(numjava mat1, numjava mat, int odimWidth,int odimHeight,int channels, int filterSize, int noOfFilters, int imindex, int stride, int pad, int widthBefPad,int heigthBefPad )
+	{
+		//numjava matim2col = new numjava(noOfFilters, odimWidth*odimHeight);
+		numjava matim2col = mat1;
+		int col = 0;
+		int rowInc = 0;
+		boolean flag = true;
+		int imHeight = odimHeight;
+		int imWidth = odimWidth;
+		int channelCount=0;
+		int iterCount = 0;
+		int j;
+		int mul = 1;
+		int imrowCount=0;
+		int temp;
+		int totalIter = filterSize * filterSize;
+		int pixelsToMove = (widthBefPad*heigthBefPad)+(widthBefPad*pad*2)+(heigthBefPad*pad*2)+((pad*pad)*4); // To move to another channel(Total 32*32 + padding pixels) 
+		//int pixelsToMove = 
+		for (int rowCount = 0; rowCount<imHeight; rowCount++)
+		{
+			if(flag == true)
+			{
+				rowInc = 0;
+				flag = false;
+			}
+			else
+			{
+				rowInc = rowInc  + (widthBefPad+2*pad)*stride; // Traverse or take stride vertically and continue with column stride,because now the image is just a single row of pixels RGB.
+			}
+			temp = rowInc; 
+			for (int colCount = 0; colCount<imWidth; colCount++)
+			{
+				channelCount = 0;
+				iterCount = 0;
+				//i = rowCount;
+				j = rowInc ;
+				mul = 1;
+				imrowCount = 0;
+				while (channelCount<channels)
+				{
 
-  
+					while(iterCount<totalIter)
+					{
+						//						matim2col.finalmatrix[imrowCount][col] = mat.finalmatrix[imindex][j];
+						//						matim2col.finalmatrix[++imrowCount][col] = mat.finalmatrix[imindex][j+1];
+						//						matim2col.finalmatrix[++imrowCount][col] = mat.finalmatrix[imindex][j+2];
+
+						matim2col.finalmatrix[imrowCount][col] = mat.finalmatrix[imindex][j]; // Filling value to to get im2col
+
+						//j++;
+
+						if((imrowCount+1)%filterSize==0) //imrowCount will be  multiple of the filters width.
+						{
+							//j=j+(imWidth-filterSize)+1; // Get the next position RGB rows
+							j = j + ((widthBefPad+2*pad)-filterSize);
+						}
+						else
+						{
+							j++;  // increment every pixel value
+						}
+						imrowCount++;   // For 3*3 filter this will go till 9 For R, 9-18 for G, 18-27 G.
+						iterCount++;
+					}
+					iterCount = 0;
+					
+					j = rowInc + (pixelsToMove*mul); // Go from R(0-1023) to G (1024-2047) to B (2048-3071)
+					mul++; // 1 for R, 2 for G
+					channelCount++; // Increment the channel, go to next channel
+				}
+				rowInc = rowInc + stride; // Take stride to the right 
+				imrowCount = 0; // New value to be calculated for the next column so initialize back to zero 
+				col++; // Increment the column 
+
+
+			}
+			rowInc = temp; // initialize it back to the original value, for  vertical stride.
+
+		}
+
+		return matim2col;
+	}
+
+  	public static numjava pad (float [] mat, int pad , int val, int channels, int imWidth, int imHeight)
+	{
+		//int M = mat.M + pad*2; // evenly padding both horizontal sides the sides of the image.
+		//int N = mat.N + pad*2;// evenly padding both vertical sides of the image.
+		int N = (imWidth*imHeight)+(imWidth*pad*2)+(imHeight*pad*2)+((pad*pad)*4); //(4 for 4 corners) (Total pixels after padding)
+		numjava matpad = new numjava (1,N);
+		int channelCount = 0;
+//		boolean flag = true;
+		int count=0;
+		int padval = val;
+//		int iter = pad*2*imWidth;
+		int j=0;
+		int orgcount=0;
+		while (channelCount<channels)
+		{
+			for (int i=0;i<(imHeight+pad*2);i++)
+			{
+				if(i<pad || i>=((imHeight+pad)))    // for first and last row padding 
+				{
+					while (count<(imWidth+pad*2))   // Do it for all columns 
+					{
+						matpad.finalmatrix[0][j] = padval;
+						count++;
+						j++;
+					}
+					count=0;
+				}
+				else
+				{
+					while(count<pad)      // for first/second...pad cols
+					{	
+						matpad.finalmatrix[0][j] = padval;
+						count++;
+						j++;
+					}
+					count=0;
+					while(count<imWidth)    // Rest of the cols value of the old matrix
+					{
+						matpad.finalmatrix[0][j] = mat[orgcount];
+						count++;
+						j++;
+						orgcount++;
+					}
+					count=0;
+					while(count<pad)     // again for last cols padding.
+					{
+						
+						matpad.finalmatrix[0][j] = padval;
+						count++;
+						j++;
+					}
+					
+					count=0;
+				}
+				//j++;
+			}
+			channelCount++; // For the next channel.
+
+		}
+		return matpad;
+		
+	}
+
           
           
     public static void main(String args[])
