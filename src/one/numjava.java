@@ -677,6 +677,135 @@ static int get_Row_Size(double [][] matrix){
 		return matpad;
 		
 	}
+	
+	/**
+	 * To get back original image without any padding and convolution.
+	 */ 
+	
+	public static numjava deConvolve (numjava originalmat,numjava mat, int p, int filterWidth, int channels, int stride, int odimWidth, int imHeightVal, int imWidthVal)
+	{
+		int channelCount = 0;
+		int imHeight =  imHeightVal; // original image height
+		int imWidth = imWidthVal;    // original image width
+		int pad = p;
+		int filterW = filterWidth;
+		int row = mat.M;   // size of row and col of im2col matrix
+		int col = mat.N;
+		int iterFilter = filterW*filterW;    // like for 3*3 iterFilter will be 9 , not considering channels
+		int j;
+		int count=0; 
+		int rowInc = 0;   // Helps to move from one channels to another and also used for horizontal and vertical traversing.
+		int rCount = 0;
+		int cCount = 0;
+		int widthBefPad = imWidthVal;
+		//Considering images of same width and height.
+		int pixelsToMove = (widthBefPad*widthBefPad)+(widthBefPad*pad*2)+(widthBefPad*pad*2)+((pad*pad)*4); // To move from R-->G--B
+		//int N = ((imWidth*imHeight)+(imWidth*pad*2)+(imHeight*pad*2)+((pad*pad)*4))*channels; //(4 for 4 corners) (Total pixels after padding)
+		int N = (pixelsToMove)*channels;
+		numjava matcol2im = new numjava (1,N);  // array with padded pixels
+		for (int colCount = 0; colCount<col; colCount++)
+		{
+
+			if(colCount!=0)   // For checking whether we have traversed to the end of the image width
+			{
+				// If started from row zero , then once the end of the width is reached mov eto row one, then to row two ......
+				if ((colCount)%odimWidth == 0)
+				{
+					cCount++; // To track the complete width traversing (i.e In a 5*5 matrix, after traversing across 5 columns move to next row )
+					rowInc = ((widthBefPad+2*pad)*stride)*cCount;  // Traverse  row wise (i.e when 5 * 5 , width 5 is covered move to next row and  start traversing)
+				}
+				else
+				{
+					rowInc=rowInc+stride; // for horizontal stride across ones you switch to a new row.
+				}
+			}
+			j = rowInc;
+			for (int rowCount = 0; rowCount<row; rowCount++)
+			{
+				if(rCount<iterFilter)   // Signify end of first column (i.e all the 9 values of R, B and G are added)
+				{
+					// For 3 by 3 filter it will go to fisrt 3 Red pixels then the next 3 and then the next 3 , row wise, Imagine a square block
+					if(count<filterW)
+					{
+						matcol2im.finalmatrix[0][j] = mat.finalmatrix[rowCount][colCount];
+						j++;
+						count++;
+					}
+					else
+					{
+						j = j + ((widthBefPad+2*pad)-filterW);
+						count = 0;
+					}
+					rCount++;
+
+				}
+				else
+				{
+					j = rowInc + pixelsToMove;
+					rCount = 0;
+				}
+			}
+		}
+
+		// Now get back the original image.
+
+		numjava matpad = originalmat; // dimension of an image before any padding was appliend on it.
+		int counter=0;
+		j=0;
+		count=0;
+		while (channelCount<channels)
+		{
+			for (int i=0;i<(imHeight+pad*2);i++)
+			{
+				// Not to put padded values.
+				if(i<pad || i>=((imHeight+pad)))    // for first and last row padding 
+				{
+					while (count<(imWidth+pad*2))   // Do it for all columns 
+					{
+						//matpad.finalmatrix[0][j] = padval;
+						count++;
+						j++;
+					}
+					count=0;
+				}
+				else
+				{
+					// Not to put padded values.
+					while(count<pad)      // for first/second...pad cols
+					{	
+						//matpad.finalmatrix[0][j] = padval;
+						count++;
+						j++;
+					}
+					count=0;
+					// put only non padded values.
+					while(count<imWidth)    // Rest of the cols value of the old matrix
+					{
+						matpad.finalmatrix[0][counter] = matcol2im.finalmatrix[0][j];
+						count++;
+						j++;
+						counter++;
+						//orgcount++;
+					}
+					count=0;
+					// Not to put padded values.
+					while(count<pad)     // again for last cols padding.
+					{
+
+						//matpad.finalmatrix[0][j] = padval;
+						count++;
+						j++;
+					}
+
+					count=0;
+				}
+				//j++;
+			}
+			channelCount++; // For the next channel.
+
+		}
+		return matpad;
+	}
 
           
           
