@@ -154,5 +154,60 @@ public class layers {
 		
 	}
 	
+	/**
+	 * Computes backward propagation
+	 * Date 10-27-2015
+	 */
+	 
+	public Map<String, numjava> conv_backward_naive(Map<Integer,numjava> dout1, Map<String, Object> cache)
+	{
+	
+		numjava x  = (numjava)cache.get("x");
+		numjava w = (numjava) cache.get("w");
+		numjava b = (numjava)cache.get("b");
+		Map<String,Integer> conv_param = (Map<String,Integer>)cache.get("conv_param");
+		Map<Integer,numjava> dout = dout1;
+		int stride = conv_param.get("stride");
+		int pad = conv_param.get("pad");
+		int filterH = conv_param.get("filterHeight");
+		int filterW = conv_param.get("filterWidth");
+		int channels = conv_param.get("channels");
+		int Nrow = x.M;
+		int Ncol = x.N;
+		int noOfFilters = w.M;
+		int odimWidth = 1 + (conv_param.get("imageWidth")-filterW + 2 * pad)/stride; // output dimension of the convolved image.
+		int odimHeight = 1  + (conv_param.get("imageHeight")-filterH + 2 * pad)/stride;
+		numjava im2col = new numjava(noOfFilters,odimWidth * odimHeight);
+	//	Map<Integer,numjava> outMapim2col = new HashMap<Integer, numjava>();
+		numjava xnew;
+		//int val = 0; // setting pad value as zero
+		int imWidth = 32; // Considering 32 by 32 pixel image.
+		int imHeight = 32; // Considering 32 by 32 pixel image.
+		numjava dw = new numjava(w.M,w.N);
+		numjava dx = new numjava(x.M,x.N);
+		numjava db = new numjava(b.M,b.N);
+		numjava x_deconvolve = new numjava (im2col.M,im2col.N); // im2col dimension
+		numjava originalMat = new numjava (x.M,x.N); // Get the image without any padding
+		
+		for (int i = 0; i<Nrow ; i++)
+		{
+			xnew = numjava.pad(x.finalmatrix[i], pad, 0 , channels, imWidth, imHeight); // pad the image
+			// make it im2col for dot matrix multiplication.
+			im2col = numjava.im2col(im2col, xnew, odimWidth, odimHeight, channels, filterW, noOfFilters,0, stride, pad, imWidth, imHeight);
+			dw = numjava.add(dw, numjava.dot(dout.get(i),numjava.transpose(im2col)));
+			db = numjava.add(db, numjava.sum(b, 1));
+			x_deconvolve = numjava.dot(numjava.transpose(w),dout.get(i));
+			dx = numjava.deConvolve(originalMat, x_deconvolve, pad, filterW, channels, stride, odimWidth, imHeight, imWidth);
+		}
+		Map<String, numjava> ret = new HashMap<String, numjava>();
+		ret.put("dx", dx);
+		ret.put("dw", dw);
+		ret.put("db", db);
+		return ret;
+	}
+}	
+	
+
+	
 
 }
