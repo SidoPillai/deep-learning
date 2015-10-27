@@ -111,8 +111,9 @@ public class layers {
 		return ret;
 
 	}
-	
-	
+	/**
+	 * Compute convolution forward propagation. 
+	*/
 	public Map<String, Object> conv_forward_naive(numjava x, numjava w, numjava b, Map<String, Integer> conv_param)
 	{
 		int stride = conv_param.get("stride");
