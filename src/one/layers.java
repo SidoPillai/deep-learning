@@ -111,5 +111,47 @@ public class layers {
 		return ret;
 
 	}
+	
+	
+	public Map<String, Object> conv_forward_naive(numjava x, numjava w, numjava b, Map<String, Integer> conv_param)
+	{
+		int stride = conv_param.get("stride");
+		int pad = conv_param.get("pad");
+		int filterH = conv_param.get("filterHeight");
+		int filterW = conv_param.get("filterWidth");
+		int channels = conv_param.get("channels");
+		int Nrow = x.M;
+		int Ncol = x.N;
+		int noOfFilters = w.M;
+		int odimWidth = 1 + (conv_param.get("imageWidth")-filterW + 2 * pad)/stride; // output dimension of the convolved image.
+		int odimHeight = 1  + (conv_param.get("imageHeight")-filterH + 2 * pad)/stride;
+		numjava im2col = new numjava(noOfFilters,odimWidth * odimHeight);
+		Map<Integer,numjava> outMapim2col = new HashMap<Integer, numjava>();
+		numjava xnew;
+		int val = 0; // setting pad value as zero
+		int imWidth = 32; // Considering 32 by 32 pixel image.
+		int imHeight = 32; // Considering 32 by 32 pixel image.
+		numjava convomat=null;
+		for (int i = 0; i<Nrow ; i++)
+		{
+			xnew = numjava.pad(x.finalmatrix[i], pad, 0 , channels, imWidth, imHeight); // pad the image
+			// make it im2col for dot matrix multiplication.
+			im2col = numjava.im2col(im2col, xnew, odimWidth, odimHeight, channels, filterW, noOfFilters,0, stride, pad, imWidth, imHeight);
+			convomat = numjava.add(numjava.dot(w,im2col),b);
+			// store it in a map
+			outMapim2col.put(i, convomat);
+		}
+		
+		Map<String, Object> ret = new HashMap<String, Object>();
+		ret.put("x", x);
+		ret.put("w", w);
+		ret.put("b", b);
+		ret.put("out", outMapim2col);
+		ret.put("conv_param",conv_param);
+		
+		return ret;
+		
+	}
+	
 
 }
