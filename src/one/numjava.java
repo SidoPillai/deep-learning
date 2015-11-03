@@ -529,6 +529,142 @@ static int get_Row_Size(double [][] matrix){
 		return mat;
 	}
 	
+	
+	
+	/**
+	 * Calculates exponential values for all the elements in the matrix.
+	 * @param mat
+	 * @return
+	 */
+
+	public static numjava calculate_Exponential(numjava mat) {
+
+		for(int i = 0; i<mat.M;i++)
+		{
+			for (int j = 0; j< mat.N; j++)
+			{
+				mat.finalmatrix[i][j] = (float)Math.exp(mat.finalmatrix[i][j]);
+			}
+		}
+
+		return mat;
+	}
+	
+	/**
+	 * Makes a deep copy of the matrix
+	 * @param mat
+	 * @return
+	 */
+
+	public static numjava deepCopy (numjava mat)
+	{
+		numjava mat1 = new numjava(mat.M,mat.N);
+
+		for (int i = 0;i< mat.M; i++)
+		{
+			mat1.finalmatrix[i] = Arrays.copyOf(mat.finalmatrix[i], mat.finalmatrix[i].length);
+		}
+		return mat1;
+	}
+	
+		/**
+	 * Subtract val from all the elements of the array.
+	 * @param x
+	 * @param val
+	 * @return
+	 */
+	public static float [] sub(float [] x, float val)
+	{
+		for(int i = 0 ; i<x.length; i++)
+		{
+			x[i] = x[i] - val;
+		}
+		return x;
+	}
+
+	/**
+	 * Divide a matrix by another matrix
+	 * @param mat1
+	 * @param mat2
+	 * @return
+	 */
+	public static numjava divide (numjava mat1, numjava mat2)
+	{
+		if (mat2.N==1) // mat2 is a vector
+		{
+			for(int i = 0 ;i<mat1.M; i++)
+			{
+				for (int j = 0 ; j<mat1.N; j++)
+				{
+					// Basically, it is every row of mat1 is getting divide by a value from mat 2 , which is single dimension
+					mat1.finalmatrix[i][j]=mat1.finalmatrix[i][j]/mat2.finalmatrix[i][0];
+
+				}
+
+			}
+		}
+		else if (mat1.N==mat2.N)
+		{
+			for (int i = 0; i<mat1.M;i++)
+			{
+				for(int j = 0; j < mat1.N; j++)
+				{
+					mat1.finalmatrix[i][j] = mat1.finalmatrix[i][j]/mat2.finalmatrix[i][j];
+
+				}
+			}
+		}
+		return mat1;
+	}
+
+	/**
+	 * Subtract a matrix from another matrix
+	 * @param mat1
+	 * @param mat2
+	 * @return
+	 */
+	public static numjava sub(numjava mat1, numjava mat2)
+	{
+		//check dimension before subtracting
+		numjava mat = null;
+		if(mat1.M==mat2.M && mat1.N==mat2.N)
+		{
+			mat = new numjava(mat1.M,mat1.N);
+
+			for (int i = 0; i< mat1.M; i++)
+			{
+				for(int j = 0; j< mat1.N; j++)
+				{
+					mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] - mat2.finalmatrix[i][j]; 
+				}
+			}
+		}
+		return mat;
+
+
+	}
+
+	/**
+	 * Divide a matrix by element
+	 * @param mat1
+	 * @param val
+	 * @return
+	 */
+	public static numjava divideByVal (numjava mat1, float val)
+	{
+		for(int i = 0 ;i<mat1.M; i++)
+		{
+			for (int j = 0 ; j<mat1.N; j++)
+			{
+				// Basically, it is every row of mat1 is getting divide by a value from mat 2 , which is single dimension
+				mat1.finalmatrix[i][j]=mat1.finalmatrix[i][j]/val;
+			}
+
+		}
+		return mat1;
+	}
+
+	
 	/*
 	 * The functionis used to convert image to column. (im2col)
 	 *
