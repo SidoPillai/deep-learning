@@ -1,12 +1,12 @@
 package core;
 
 import java.util.*;
-class numjava {
+class NumJava {
     int M;
     int N;
     
     float finalmatrix [][];
-    public numjava(int M,int N)
+    public NumJava(int M,int N)
     {
         this.M=M;
         this.N=N;
@@ -14,9 +14,9 @@ class numjava {
     }
     
     // To create random 2-d array
-    public static numjava createrandom (int M,int N)
+    public static NumJava createrandom (int M,int N)
     {
-        numjava mat=new numjava(M,N);
+        NumJava mat=new NumJava(M,N);
         for (int i=0;i<M;i++)
         {
             for (int j=0;j<N;j++)
@@ -28,7 +28,7 @@ class numjava {
         return mat; 
     }
     // To print a matrix 
-    public static void print(numjava mat)
+    public static void print(NumJava mat)
     {
         System.out.println(mat.M+" "+mat.N);
         for (int i=0;i<mat.M;i++)
@@ -43,7 +43,7 @@ class numjava {
     }
     
     //Dot product of 2 matrices
-    public static numjava dot(numjava mat1,numjava mat2)
+    public static NumJava dot(NumJava mat1,NumJava mat2)
     {
     
         int M1=mat1.M;
@@ -53,7 +53,7 @@ class numjava {
         
             if (N1!=M2) throw new RuntimeException("Illegal matrix dimensions");
            
-        numjava mat=new numjava(M1,N2);
+        NumJava mat=new NumJava(M1,N2);
         
         for (int i=0;i<M1;i++)
         {
@@ -70,7 +70,7 @@ class numjava {
     }
     
     //Elementwise multiplication
-    public static numjava elementmul(numjava mat1,numjava mat2)
+    public static NumJava elementmul(NumJava mat1,NumJava mat2)
     {
         int M1=mat1.M;
         int N1=mat1.N;
@@ -87,10 +87,10 @@ class numjava {
             System.out.println("Illegal matrix dimension");
         }
         
-        numjava mat=null;
+        NumJava mat=null;
         if (M1!=M2)
         {   
-             mat=new numjava(M2,N1);     
+             mat=new NumJava(M2,N1);     
             for (int i=0;i<M2;i++)
             {
             
@@ -103,7 +103,7 @@ class numjava {
         
         else
         {
-            mat=new numjava(M1,N1);
+            mat=new NumJava(M1,N1);
             for (int i=0;i<M1;i++)
             {
                 for (int j=0;j<N1;j++)
@@ -122,14 +122,14 @@ class numjava {
     }
     */
     //Reshaping the  matrices
-    public static numjava reshape(numjava mat,int M,int N)
+    public static NumJava reshape(NumJava mat,int M,int N)
     {
     
          int old_M=mat.M;
          int old_N=mat.N;
          int counteri=0;
          int counterj=0;
-         numjava C=new numjava(M,N);
+         NumJava C=new NumJava(M,N);
          //try
           //{
               if((old_M*old_N)!=(M*N))
@@ -172,12 +172,12 @@ class numjava {
     }
     
     // Creating a matrix
-    public static numjava creatematrix(float mat[][])
+    public static NumJava creatematrix(float mat[][])
     {   
         int M=mat.length;
         int N=mat[0].length;
         System.out.println(M+" "+N);
-        numjava C=new numjava(M,N);
+        NumJava C=new NumJava(M,N);
         for (int i=0;i<M;i++)
         {
             for(int j=0;j<N;j++)
@@ -190,10 +190,10 @@ class numjava {
     }
     
     //Transposing a matrix
-    public static numjava transpose(numjava mat)
+    public static NumJava transpose(NumJava mat)
     {
     
-    numjava C=new numjava(mat.N,mat.M);
+    NumJava C=new NumJava(mat.N,mat.M);
 //    int counteri=0;
 //    int counterj=0;
     for (int i=0;i<mat.M;i++)
@@ -222,7 +222,7 @@ static int get_Row_Size(double [][] matrix){
 		return matrix[0].length;
 	}
 */
-	static float get_Max_Element_Matrix_by_Value(numjava matrix) throws Exception {
+	static float get_Max_Element_Matrix_by_Value(NumJava matrix) throws Exception {
 
 		if(matrix.finalmatrix == null) {
 			throw new Exception("Matrix is null");
@@ -241,7 +241,7 @@ static int get_Row_Size(double [][] matrix){
 	}
 
 	// Returns an array 1st index is row and 2nd is column
-	static int[] get_Arg_Max(numjava matrix) throws Exception {
+	static int[] get_Arg_Max(NumJava matrix) throws Exception {
 
 		if(matrix.finalmatrix == null) {
 			throw new Exception("Matrix is null");
@@ -263,7 +263,7 @@ static int get_Row_Size(double [][] matrix){
 		return index_Max;
 	}
 
-	static float get_Max_Element_Matrix_by_Row(numjava matrix, int row_Number) {
+	static float get_Max_Element_Matrix_by_Row(NumJava matrix, int row_Number) {
 
 		float max = matrix.finalmatrix[row_Number][0];
 
@@ -275,7 +275,7 @@ static int get_Row_Size(double [][] matrix){
 		return max;
 	}
 
-	static float get_Max_Element_Matrix_by_Column(numjava matrix, int column_Number) {
+	static float get_Max_Element_Matrix_by_Column(NumJava matrix, int column_Number) {
 
 		float max = matrix.finalmatrix[0][column_Number];
 
@@ -287,7 +287,7 @@ static int get_Row_Size(double [][] matrix){
 		return max;
 	}
 	
-	static float get_Min_Element_Matrix_by_Value(numjava matrix) throws Exception {
+	static float get_Min_Element_Matrix_by_Value(NumJava matrix) throws Exception {
 
 		if(matrix.finalmatrix == null) {
 			throw new Exception("Matrix is null");
@@ -306,7 +306,7 @@ static int get_Row_Size(double [][] matrix){
 	}
 
 	// Returns an array 1st index is row and 2nd is column
-	static int[] get_Min_Element_Matrix_by_Index(numjava matrix) throws Exception {
+	static int[] get_Min_Element_Matrix_by_Index(NumJava matrix) throws Exception {
 
 		if(matrix.finalmatrix == null) {
 			throw new Exception("Matrix is null");
@@ -328,7 +328,7 @@ static int get_Row_Size(double [][] matrix){
 		return index_Min;
 	}
 
-	static float get_Min_Element_Matrix_by_Row(numjava matrix, int row_Number) {
+	static float get_Min_Element_Matrix_by_Row(NumJava matrix, int row_Number) {
 
 	 float min = matrix.finalmatrix[row_Number][0];
 
@@ -340,7 +340,7 @@ static int get_Row_Size(double [][] matrix){
 		return min;
 	}
 
-	static float get_Min_Element_Matrix_by_Column(numjava matrix, int column_Number) {
+	static float get_Min_Element_Matrix_by_Column(NumJava matrix, int column_Number) {
 
 		float min = matrix.finalmatrix[0][column_Number];
 
@@ -357,7 +357,7 @@ static int get_Row_Size(double [][] matrix){
 	}
 	
 	// transformed with the matrix reference
-	static  numjava transform_Matrix_with_Exponential(numjava matrix) {
+	static  NumJava transform_Matrix_with_Exponential(NumJava matrix) {
 		
 		for (int row = 0; row < matrix.M; row++) {
 			for (int column = 0; column < matrix.N; column++) {
@@ -381,7 +381,7 @@ static int get_Row_Size(double [][] matrix){
 	}
 	*/
 	
-	static numjava make_Unit_Matrix(numjava matrix) {
+	static NumJava make_Unit_Matrix(NumJava matrix) {
 		
 		for (int row = 0; row < matrix.M; row++) {
 			for (int column = 0; column < matrix.N; column++) {
@@ -398,17 +398,17 @@ static int get_Row_Size(double [][] matrix){
      * @param mat2
      * @return
      */
-    public static numjava add(numjava mat1, numjava mat2)
+    public static NumJava add(NumJava mat1, NumJava mat2)
     {
     	// check for matrix or vector
-    	numjava mat = null;
+    	NumJava mat = null;
       	if (mat2.M==1)
     	{
     		try{
     			
         		if (mat1.N == mat2.N)
 	    		{
-		    		mat = new numjava(mat1.M,mat1.N);
+		    		mat = new NumJava(mat1.M,mat1.N);
 		    		for (int i=0;i<mat1.M;i++)
 		    		{
 		    			for (int j=0;j<mat1.N;j++)
@@ -433,7 +433,7 @@ static int get_Row_Size(double [][] matrix){
 	    		
 	    		if (mat1.M==mat2.M)
 	    		{	
-	    			mat = new numjava (mat1.N,mat1.N);
+	    			mat = new NumJava (mat1.N,mat1.N);
 		    		for (int j=0;j<mat1.N;j++)
 		    		{
 		    			for (int i=0; i<mat1.M;i++)
@@ -458,7 +458,7 @@ static int get_Row_Size(double [][] matrix){
     		{
 	    		if (mat1.M==mat2.M && mat1.N==mat2.N)
 	    		{	
-	    			mat = new numjava (mat1.M,mat1.N);
+	    			mat = new NumJava (mat1.M,mat1.N);
 	    			for (int i=0;i<mat1.M;i++)
 	    			{
 	    				for (int j=0;j<mat1.N;j++)
@@ -481,9 +481,9 @@ static int get_Row_Size(double [][] matrix){
 	* axis = 0 : sum along row 
 	* axis = 1 : sum along column
 	*/
-	public static numjava sum(numjava mat1, int axis)
+	public static NumJava sum(NumJava mat1, int axis)
 	{
-		numjava mat = null;
+		NumJava mat = null;
 		float sum = 0;
 		try 
 		{
@@ -494,7 +494,7 @@ static int get_Row_Size(double [][] matrix){
 				{
 
 					// sum along row axis
-					mat = new numjava(1,mat1.N);
+					mat = new NumJava(1,mat1.N);
 					for (int j = 0 ;j<mat1.M ; j++)
 					{
 						for (int i = 0; i<mat1.N; i++)
@@ -509,7 +509,7 @@ static int get_Row_Size(double [][] matrix){
 				{
 					// add along column axis
 
-					mat = new numjava(mat1.M,1);
+					mat = new NumJava(mat1.M,1);
 					for (int i = 0; i< mat1.M; i++)
 					{
 						for (int j = 0; j<mat1.N; j++)
@@ -539,7 +539,7 @@ static int get_Row_Size(double [][] matrix){
 	 * @return
 	 */
 
-	public static numjava calculate_Exponential(numjava mat) {
+	public static NumJava calculate_Exponential(NumJava mat) {
 
 		for(int i = 0; i<mat.M;i++)
 		{
@@ -558,9 +558,9 @@ static int get_Row_Size(double [][] matrix){
 	 * @return
 	 */
 
-	public static numjava deepCopy (numjava mat)
+	public static NumJava deepCopy (NumJava mat)
 	{
-		numjava mat1 = new numjava(mat.M,mat.N);
+		NumJava mat1 = new NumJava(mat.M,mat.N);
 
 		for (int i = 0;i< mat.M; i++)
 		{
@@ -590,7 +590,7 @@ static int get_Row_Size(double [][] matrix){
 	 * @param mat2
 	 * @return
 	 */
-	public static numjava divide (numjava mat1, numjava mat2)
+	public static NumJava divide (NumJava mat1, NumJava mat2)
 	{
 		if (mat2.N==1) // mat2 is a vector
 		{
@@ -625,13 +625,13 @@ static int get_Row_Size(double [][] matrix){
 	 * @param mat2
 	 * @return
 	 */
-	public static numjava sub(numjava mat1, numjava mat2)
+	public static NumJava sub(NumJava mat1, NumJava mat2)
 	{
 		//check dimension before subtracting
-		numjava mat = null;
+		NumJava mat = null;
 		if(mat1.M==mat2.M && mat1.N==mat2.N)
 		{
-			mat = new numjava(mat1.M,mat1.N);
+			mat = new NumJava(mat1.M,mat1.N);
 
 			for (int i = 0; i< mat1.M; i++)
 			{
@@ -652,7 +652,7 @@ static int get_Row_Size(double [][] matrix){
 	 * @param val
 	 * @return
 	 */
-	public static numjava divideByVal (numjava mat1, float val)
+	public static NumJava divideByVal (NumJava mat1, float val)
 	{
 		for(int i = 0 ;i<mat1.M; i++)
 		{
@@ -671,10 +671,10 @@ static int get_Row_Size(double [][] matrix){
 	 * The functionis used to convert image to column. (im2col)
 	 *
 	 */
-	public static numjava im2col(numjava mat1, numjava mat, int odimWidth,int odimHeight,int channels, int filterSize, int noOfFilters, int imindex, int stride, int pad, int widthBefPad,int heigthBefPad )
+	public static NumJava im2col(NumJava mat1, NumJava mat, int odimWidth,int odimHeight,int channels, int filterSize, int noOfFilters, int imindex, int stride, int pad, int widthBefPad,int heigthBefPad )
 	{
 		//numjava matim2col = new numjava(noOfFilters, odimWidth*odimHeight);
-		numjava matim2col = mat1;
+		NumJava matim2col = mat1;
 		int col = 0;
 		int rowInc = 0;
 		boolean flag = true;
@@ -753,12 +753,12 @@ static int get_Row_Size(double [][] matrix){
 		return matim2col;
 	}
 
-  	public static numjava pad (float [] mat, int pad , int val, int channels, int imWidth, int imHeight)
+  	public static NumJava pad (float [] mat, int pad , int val, int channels, int imWidth, int imHeight)
 	{
 		//int M = mat.M + pad*2; // evenly padding both horizontal sides the sides of the image.
 		//int N = mat.N + pad*2;// evenly padding both vertical sides of the image.
 		int N = (imWidth*imHeight)+(imWidth*pad*2)+(imHeight*pad*2)+((pad*pad)*4); //(4 for 4 corners) (Total pixels after padding)
-		numjava matpad = new numjava (1,N);
+		NumJava matpad = new NumJava (1,N);
 		int channelCount = 0;
 //		boolean flag = true;
 		int count=0;
@@ -820,7 +820,7 @@ static int get_Row_Size(double [][] matrix){
 	 * To get back original image without any padding and convolution.
 	 */ 
 	
-	public static numjava deConvolve (numjava originalmat,numjava mat, int p, int filterWidth, int channels, int stride, int odimWidth, int imHeightVal, int imWidthVal)
+	public static NumJava deConvolve (NumJava originalmat,NumJava mat, int p, int filterWidth, int channels, int stride, int odimWidth, int imHeightVal, int imWidthVal)
 	{
 		int channelCount = 0;
 		int imHeight =  imHeightVal; // original image height
@@ -840,7 +840,7 @@ static int get_Row_Size(double [][] matrix){
 		int pixelsToMove = (widthBefPad*widthBefPad)+(widthBefPad*pad*2)+(widthBefPad*pad*2)+((pad*pad)*4); // To move from R-->G--B
 		//int N = ((imWidth*imHeight)+(imWidth*pad*2)+(imHeight*pad*2)+((pad*pad)*4))*channels; //(4 for 4 corners) (Total pixels after padding)
 		int N = (pixelsToMove)*channels;
-		numjava matcol2im = new numjava (1,N);  // array with padded pixels
+		NumJava matcol2im = new NumJava (1,N);  // array with padded pixels
 		for (int colCount = 0; colCount<col; colCount++)
 		{
 
@@ -887,7 +887,7 @@ static int get_Row_Size(double [][] matrix){
 
 		// Now get back the original image.
 
-		numjava matpad = originalmat; // dimension of an image before any padding was appliend on it.
+		NumJava matpad = originalmat; // dimension of an image before any padding was appliend on it.
 		int counter=0;
 		j=0;
 		count=0;
@@ -953,20 +953,20 @@ static int get_Row_Size(double [][] matrix){
         {
         
         
-        numjava x1=numjava.creatematrix(new float[][]{{1,2,3},{4,5,6},{9,8,7}});
-        numjava x2=numjava.creatematrix(new float[][]{{1,2,3},{4,5,6},{9,8,7}});
-        numjava.print(x1);
+        NumJava x1=NumJava.creatematrix(new float[][]{{1,2,3},{4,5,6},{9,8,7}});
+        NumJava x2=NumJava.creatematrix(new float[][]{{1,2,3},{4,5,6},{9,8,7}});
+        NumJava.print(x1);
        
-        System.out.println("Max element by Value :"+numjava.get_Max_Element_Matrix_by_Value(x1));
-        System.out.println("Max_Argument :"+numjava.get_Arg_Max(x1)[0]+" "+numjava.get_Arg_Max(x1)[1]);
-        System.out.println("Max_element by row :"+numjava.get_Max_Element_Matrix_by_Row(x1, 1));
-        System.out.println("Max element by column :"+numjava.get_Max_Element_Matrix_by_Column(x1,1));
-        System.out.println("Min elemet by Value :"+numjava.get_Min_Element_Matrix_by_Value(x1));
-        System.out.println("Min elemet by Index :"+numjava.get_Min_Element_Matrix_by_Index(x1)[0]+" "+numjava.get_Min_Element_Matrix_by_Index(x1)[1]);
-        System.out.println("Min elemet by row :"+numjava.get_Min_Element_Matrix_by_Row(x1, 1));
-        System.out.println("Min elemet by column :"+numjava.get_Min_Element_Matrix_by_Column(x1, 1));
-        numjava.print(numjava.transform_Matrix_with_Exponential(x1)); 
-        numjava.print(numjava.make_Unit_Matrix(x1));   
+        System.out.println("Max element by Value :"+NumJava.get_Max_Element_Matrix_by_Value(x1));
+        System.out.println("Max_Argument :"+NumJava.get_Arg_Max(x1)[0]+" "+NumJava.get_Arg_Max(x1)[1]);
+        System.out.println("Max_element by row :"+NumJava.get_Max_Element_Matrix_by_Row(x1, 1));
+        System.out.println("Max element by column :"+NumJava.get_Max_Element_Matrix_by_Column(x1,1));
+        System.out.println("Min elemet by Value :"+NumJava.get_Min_Element_Matrix_by_Value(x1));
+        System.out.println("Min elemet by Index :"+NumJava.get_Min_Element_Matrix_by_Index(x1)[0]+" "+NumJava.get_Min_Element_Matrix_by_Index(x1)[1]);
+        System.out.println("Min elemet by row :"+NumJava.get_Min_Element_Matrix_by_Row(x1, 1));
+        System.out.println("Min elemet by column :"+NumJava.get_Min_Element_Matrix_by_Column(x1, 1));
+        NumJava.print(NumJava.transform_Matrix_with_Exponential(x1)); 
+        NumJava.print(NumJava.make_Unit_Matrix(x1));   
      
         }
         

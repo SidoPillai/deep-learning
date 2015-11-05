@@ -12,28 +12,28 @@ import java.io.IOException;
  * @version 20-Sep-2015	
  */
 
-public class data_load {
+public class DataLoad {
 
-	numjava objXTrain;
-	numjava objXTest;
-	numjava objYTrain;
-	numjava objYTest;
+	NumJava objXTrain;
+	NumJava objXTest;
+	NumJava objYTrain;
+	NumJava objYTest;
 
 	/*
 	 * Constructor to initialize data members of numjava class.(i.e matrices). 
 	 */
-	public data_load(int trainSize,int testSize)
+	public DataLoad(int trainSize,int testSize)
 		{
-		objXTrain = new numjava (trainSize,3072);
-		objXTest  = new numjava (testSize,3072);
-		objYTrain = new numjava (trainSize,1);
-		objYTest = new numjava (testSize,1);
+		objXTrain = new NumJava (trainSize,3072);
+		objXTest  = new NumJava (testSize,3072);
+		objYTrain = new NumJava (trainSize,1);
+		objYTest = new NumJava (testSize,1);
 		}
 
-	public data_load(int dataSize)
+	public DataLoad(int dataSize)
 		{
-		objXTrain = new numjava (dataSize,3072);
-		objYTrain = new numjava (dataSize,1);
+		objXTrain = new NumJava (dataSize,3072);
+		objYTrain = new NumJava (dataSize,1);
 		}
 	/**
 	 * The method is used to load data in batches.
@@ -43,9 +43,9 @@ public class data_load {
 	 * @throws IOException
 	 */
 
-	public static data_load load_cifar_batch(String filepath, int dataSize) throws IOException
+	public static DataLoad load_cifar_batch(String filepath, int dataSize) throws IOException
 		{
-		data_load d =new data_load(dataSize);
+		DataLoad d =new DataLoad(dataSize);
 		File f = new File(filepath);
 		FileInputStream in =new FileInputStream(f);
 		int fileLength = (int)f.length();
@@ -93,10 +93,10 @@ public class data_load {
 	 * @return Object of data_load that contains data members of numjava class(i.e matrices) 
 	 * @throws IOException
 	 */
-	public static data_load load_CIFAR(String path, int numTrain, int numTest) throws IOException
+	public static DataLoad load_CIFAR(String path, int numTrain, int numTest) throws IOException
 		{
-		data_load dobj1= new data_load(numTrain,numTest);
-		data_load dobj2;
+		DataLoad dobj1= new DataLoad(numTrain,numTest);
+		DataLoad dobj2;
 		String fileName = "data_batch_";
 		String filePath;
 

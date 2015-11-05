@@ -3,7 +3,7 @@ package core;
 import java.util.Map;
 
 
-public class gradientCheck {
+public class GradientCheck {
 
 	/**
 	 * Evaluate numerical gradient for affine layer
@@ -11,10 +11,10 @@ public class gradientCheck {
 	 * @param x : X 
 	 * @param df : derivative
 	 */
-	public static numjava evalNumericalGradient_affineLayer( String deriv_wrt, numjava x, numjava w, numjava b, numjava df,float hval) {
+	public static NumJava evalNumericalGradient_affineLayer( String deriv_wrt, NumJava x, NumJava w, NumJava b, NumJava df,float hval) {
 		
-		numjava grad = new numjava(x.M,x.N);
-		layers l = new layers();
+		NumJava grad = new NumJava(x.M,x.N);
+		Layers l = new Layers();
 		float oldval=0;
 		float h = hval;
 		
@@ -26,13 +26,13 @@ public class gradientCheck {
 					{
 						oldval = x.finalmatrix[i][j];
 						x.finalmatrix[i][j] = oldval + h;
-						numjava pos  =  l.affine_forward(x, w, b).get("x"); // lambda function
+						NumJava pos  =  l.affine_forward(x, w, b).get("x"); // lambda function
 						x.finalmatrix[i][j] = oldval - h;
-						numjava neg = l.affine_forward(x, w, b).get("x"); // lambda function
+						NumJava neg = l.affine_forward(x, w, b).get("x"); // lambda function
 						x.finalmatrix[i][j] = oldval;
-						numjava mat = numjava.elementmul(numjava.sub(pos, neg), df);
+						NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
 						// first sum across rows then across columns to get just one value at 0,0 
-						grad.finalmatrix[i][j] = numjava.divideByVal(numjava.sum(numjava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
+						grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 								// accumulate sum for entire matrix; 
 					// This is being calculated above (pos-neg)*df/2*h;
 						
@@ -47,13 +47,13 @@ public class gradientCheck {
 				{
 					oldval = w.finalmatrix[i][j];
 					w.finalmatrix[i][j] = oldval + h;
-					numjava pos  =  l.affine_forward(x, w, b).get("out"); // lambda function
+					NumJava pos  =  l.affine_forward(x, w, b).get("out"); // lambda function
 					w.finalmatrix[i][j] = oldval - h;
-					numjava neg = l.affine_forward(x, w, b).get("out"); // lambda function
+					NumJava neg = l.affine_forward(x, w, b).get("out"); // lambda function
 					w.finalmatrix[i][j] = oldval;
-					numjava mat = numjava.elementmul(numjava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
-					grad.finalmatrix[i][j] = numjava.divideByVal(numjava.sum(numjava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
+					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
 				// This is being calculated above (pos-neg)*df/2*h;
 					
@@ -68,13 +68,13 @@ public class gradientCheck {
 				{
 					oldval = b.finalmatrix[i][j];
 					b.finalmatrix[i][j] = oldval + h;
-					numjava pos  =  l.affine_forward(x, w, b).get("out"); // lambda function
+					NumJava pos  =  l.affine_forward(x, w, b).get("out"); // lambda function
 					b.finalmatrix[i][j] = oldval - h;
-					numjava neg = l.affine_forward(x, w, b).get("out"); // lambda function
+					NumJava neg = l.affine_forward(x, w, b).get("out"); // lambda function
 					b.finalmatrix[i][j] = oldval;
-					numjava mat = numjava.elementmul(numjava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
-					grad.finalmatrix[i][j] = numjava.divideByVal(numjava.sum(numjava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
+					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
 				// This is being calculated above (pos-neg)*df/2*h;
 					
@@ -86,11 +86,11 @@ public class gradientCheck {
 		
 	}
 	
-	public static numjava evalNumericalGradient_ReluLayer( numjava x, numjava df,float hval)
+	public static NumJava evalNumericalGradient_ReluLayer( NumJava x, NumJava df,float hval)
 	{
 		
-		numjava grad = new numjava(x.M,x.N);
-		layers l = new layers();
+		NumJava grad = new NumJava(x.M,x.N);
+		Layers l = new Layers();
 		float oldval=0;
 		float h = hval;
 		for (int i = 0; i<x.M; i++) 
@@ -99,13 +99,13 @@ public class gradientCheck {
 				{
 					oldval = x.finalmatrix[i][j];
 					x.finalmatrix[i][j] = oldval + h;
-					numjava pos  =  l.relu_forward(x).get("out"); // lambda function
+					NumJava pos  =  l.relu_forward(x).get("out"); // lambda function
 					x.finalmatrix[i][j] = oldval - h;
-					numjava neg = l.relu_forward(x).get("out");// lambda function
+					NumJava neg = l.relu_forward(x).get("out");// lambda function
 					x.finalmatrix[i][j] = oldval;
-					numjava mat = numjava.elementmul(numjava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
-					grad.finalmatrix[i][j] = numjava.divideByVal(numjava.sum(numjava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
+					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
 				// This is being calculated above (pos-neg)*df/2*h;
 					
@@ -117,11 +117,11 @@ public class gradientCheck {
 	}
 	
 	
-	public static numjava evalNumericalGradient_conv_forward_naive(String deriv_wrt, numjava x, numjava w, numjava b, Map<String,Integer> conv_param, numjava df, float hval)
+	public static NumJava evalNumericalGradient_conv_forward_naive(String deriv_wrt, NumJava x, NumJava w, NumJava b, Map<String,Integer> conv_param, NumJava df, float hval)
 	{
 		
-		numjava grad = new numjava(x.M,x.N);
-		layers l = new layers();
+		NumJava grad = new NumJava(x.M,x.N);
+		Layers l = new Layers();
 		float oldval=0;
 		float h = hval;
 		
@@ -133,13 +133,13 @@ public class gradientCheck {
 					{
 						oldval = x.finalmatrix[i][j];
 						x.finalmatrix[i][j] = oldval + h;
-						numjava pos  =  (numjava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
+						NumJava pos  =  (NumJava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
 						x.finalmatrix[i][j] = oldval - h;
-						numjava neg =  (numjava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
+						NumJava neg =  (NumJava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
 						x.finalmatrix[i][j] = oldval;
-						numjava mat = numjava.elementmul(numjava.sub(pos, neg), df);
+						NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
 						// first sum across rows then across columns to get just one value at 0,0 
-						grad.finalmatrix[i][j] = numjava.divideByVal(numjava.sum(numjava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
+						grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 								// accumulate sum for entire matrix; 
 					// This is being calculated above (pos-neg)*df/2*h;
 						
@@ -154,13 +154,13 @@ public class gradientCheck {
 				{
 					oldval = w.finalmatrix[i][j];
 					w.finalmatrix[i][j] = oldval + h;
-					numjava pos  =  (numjava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
+					NumJava pos  =  (NumJava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
 					w.finalmatrix[i][j] = oldval - h;
-					numjava neg =  (numjava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
+					NumJava neg =  (NumJava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
 					w.finalmatrix[i][j] = oldval;
-					numjava mat = numjava.elementmul(numjava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
-					grad.finalmatrix[i][j] = numjava.divideByVal(numjava.sum(numjava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
+					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
 				// This is being calculated above (pos-neg)*df/2*h;
 					
@@ -175,13 +175,13 @@ public class gradientCheck {
 				{
 					oldval = b.finalmatrix[i][j];
 					b.finalmatrix[i][j] = oldval + h;
-					numjava pos  =  (numjava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
+					NumJava pos  =  (NumJava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
 					b.finalmatrix[i][j] = oldval - h;
-					numjava neg =  (numjava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
+					NumJava neg =  (NumJava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
 					b.finalmatrix[i][j] = oldval;
-					numjava mat = numjava.elementmul(numjava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
-					grad.finalmatrix[i][j] = numjava.divideByVal(numjava.sum(numjava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
+					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
 				// This is being calculated above (pos-neg)*df/2*h;
 					
@@ -195,11 +195,11 @@ public class gradientCheck {
 	}
 	
 	
-	public static numjava evalNumericalGradient_Maxpool( numjava x,Map<String,Integer> pool_param,int channels, int orgImgWidth, numjava df,float hval)
+	public static NumJava evalNumericalGradient_Maxpool( NumJava x,Map<String,Integer> pool_param,int channels, int orgImgWidth, NumJava df,float hval)
 	{
 		
-		numjava grad = new numjava(x.M,x.N);
-		layers l = new layers();
+		NumJava grad = new NumJava(x.M,x.N);
+		Layers l = new Layers();
 		float oldval=0;
 		float h = hval;
 		int orgImgHeight = orgImgWidth;
@@ -209,13 +209,13 @@ public class gradientCheck {
 				{
 					oldval = x.finalmatrix[i][j];
 					x.finalmatrix[i][j] = oldval + h;
-					numjava pos  =  (numjava)l.max_pool_forward(x, pool_param, channels, orgImgWidth, orgImgHeight).get("x"); // lambda function
+					NumJava pos  =  (NumJava)l.max_pool_forward(x, pool_param, channels, orgImgWidth, orgImgHeight).get("x"); // lambda function
 					x.finalmatrix[i][j] = oldval - h;
-					numjava neg = (numjava)l.max_pool_forward(x, pool_param, channels, orgImgWidth, orgImgHeight).get("x");// lambda function
+					NumJava neg = (NumJava)l.max_pool_forward(x, pool_param, channels, orgImgWidth, orgImgHeight).get("x");// lambda function
 					x.finalmatrix[i][j] = oldval;
-					numjava mat = numjava.elementmul(numjava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
-					grad.finalmatrix[i][j] = numjava.divideByVal(numjava.sum(numjava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
+					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
 				// This is being calculated above (pos-neg)*df/2*h;
 					

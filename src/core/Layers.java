@@ -7,23 +7,23 @@ import java.util.*;
  *  @author suhaspillai
  *  @version 2-Oct-2015	
  */
-public class layers {
+public class Layers {
 
-	Map<String,numjava> cache;
+	Map<String,NumJava> cache;
 
-	public layers()
+	public Layers()
 	{
-		cache = new HashMap<String,numjava>();
+		cache = new HashMap<String,NumJava>();
 	}
 
 	/*
 	 * Computes forward pass for affine layer.
 	 */
-	public Map <String,numjava> affine_forward(numjava x,numjava w, numjava b)
+	public Map <String,NumJava> affine_forward(NumJava x,NumJava w, NumJava b)
 	{
-		numjava out = new numjava(x.M,w.N);
-		out = numjava.dot(x, w);
-		out = numjava.add(out, b);
+		NumJava out = new NumJava(x.M,w.N);
+		out = NumJava.dot(x, w);
+		out = NumJava.add(out, b);
 		cache.put("out", out);
 		cache.put("x", x);
 		cache.put("w", w);
@@ -34,28 +34,28 @@ public class layers {
 	 * Computes backward pass for affine layer
 	 */
 
-	public  Map<String,numjava> affine_backward(numjava dout, Map<String, numjava> cache)
+	public  Map<String,NumJava> affine_backward(NumJava dout, Map<String, NumJava> cache)
 	{
-		numjava x = cache.get("x");
-		numjava w = cache.get("w");
-		numjava b = cache.get("b");
+		NumJava x = cache.get("x");
+		NumJava w = cache.get("w");
+		NumJava b = cache.get("b");
 
-		numjava dx = null;
-		numjava dw = null;
-		numjava db = null;
+		NumJava dx = null;
+		NumJava dw = null;
+		NumJava db = null;
 
 		// Implement backward pass
-		dx = new numjava (x.M,x.N);
-		dw = new numjava (w.M,w.N);
-		db = new numjava (b.M,b.N);
+		dx = new NumJava (x.M,x.N);
+		dw = new NumJava (w.M,w.N);
+		db = new NumJava (b.M,b.N);
 
-		db = numjava.add(db,numjava.sum(dout, 0));
-		dx = numjava.dot(dout, numjava.transpose(w));
+		db = NumJava.add(db,NumJava.sum(dout, 0));
+		dx = NumJava.dot(dout, NumJava.transpose(w));
 		// every x1 x2 ...xn will be multiplied by dout1,dout2
-		numjava temp = numjava.transpose(x);
-		dw = numjava.dot(temp,dout);
+		NumJava temp = NumJava.transpose(x);
+		dw = NumJava.dot(temp,dout);
 
-		Map<String, numjava> ret = new HashMap<String,numjava>();
+		Map<String, NumJava> ret = new HashMap<String,NumJava>();
 		ret.put("dx", dx);
 		ret.put("dw", dw);
 		ret.put("db", db);
@@ -67,10 +67,10 @@ public class layers {
 	 * Computing forward pass for rectified linear unit
 	 */
 
-	public Map<String,numjava> relu_forward(numjava x)
+	public Map<String,NumJava> relu_forward(NumJava x)
 	{
-		numjava out = null;
-		out = new numjava(x.M,x.N);
+		NumJava out = null;
+		out = new NumJava(x.M,x.N);
 		for (int i = 0; i<x.M;i++)
 		{
 			for (int j = 0 ; j<x.N; j++)
@@ -82,7 +82,7 @@ public class layers {
 			}
 
 		}
-		Map<String,numjava> ret = new HashMap<String, numjava>();
+		Map<String,NumJava> ret = new HashMap<String, NumJava>();
 		ret.put("out", out);
 
 		return ret;
@@ -92,11 +92,11 @@ public class layers {
 	/*
 	 * Compute backward pass for relu function.
 	 */
-	public Map<String,numjava> relu_backward(numjava dout, Map<String,numjava> cache)
+	public Map<String,NumJava> relu_backward(NumJava dout, Map<String,NumJava> cache)
 	{
-		numjava dx = null;
-		numjava x = cache.get("x");
-		numjava doutret = new numjava(dout.M, dout.N);
+		NumJava dx = null;
+		NumJava x = cache.get("x");
+		NumJava doutret = new NumJava(dout.M, dout.N);
 		for (int i = 0; i<dout.M; i++)
 		{
 			for (int j=0; j<dout.N; j++)
@@ -108,7 +108,7 @@ public class layers {
 			}
 		}
 
-		Map<String, numjava> ret = new HashMap<String, numjava>();
+		Map<String, NumJava> ret = new HashMap<String, NumJava>();
 		ret.put("dout", doutret);
 		return ret;
 
@@ -116,7 +116,7 @@ public class layers {
 	/**
 	 * Compute convolution forward propagation. 
 	*/
-	public Map<String, Object> conv_forward_naive(numjava x, numjava w, numjava b, Map<String, Integer> conv_param)
+	public Map<String, Object> conv_forward_naive(NumJava x, NumJava w, NumJava b, Map<String, Integer> conv_param)
 	{
 		int stride = conv_param.get("stride");
 		int pad = conv_param.get("pad");
@@ -128,19 +128,19 @@ public class layers {
 		int noOfFilters = w.M;
 		int odimWidth = 1 + (conv_param.get("imageWidth")-filterW + 2 * pad)/stride; // output dimension of the convolved image.
 		int odimHeight = 1  + (conv_param.get("imageHeight")-filterH + 2 * pad)/stride;
-		numjava im2col = new numjava(noOfFilters,odimWidth * odimHeight);
-		Map<Integer,numjava> outMapim2col = new HashMap<Integer, numjava>();
-		numjava xnew;
+		NumJava im2col = new NumJava(noOfFilters,odimWidth * odimHeight);
+		Map<Integer,NumJava> outMapim2col = new HashMap<Integer, NumJava>();
+		NumJava xnew;
 		int val = 0; // setting pad value as zero
 		int imWidth = 32; // Considering 32 by 32 pixel image.
 		int imHeight = 32; // Considering 32 by 32 pixel image.
-		numjava convomat=null;
+		NumJava convomat=null;
 		for (int i = 0; i<Nrow ; i++)
 		{
-			xnew = numjava.pad(x.finalmatrix[i], pad, 0 , channels, imWidth, imHeight); // pad the image
+			xnew = NumJava.pad(x.finalmatrix[i], pad, 0 , channels, imWidth, imHeight); // pad the image
 			// make it im2col for dot matrix multiplication.
-			im2col = numjava.im2col(im2col, xnew, odimWidth, odimHeight, channels, filterW, noOfFilters,0, stride, pad, imWidth, imHeight);
-			convomat = numjava.add(numjava.dot(w,im2col),b);
+			im2col = NumJava.im2col(im2col, xnew, odimWidth, odimHeight, channels, filterW, noOfFilters,0, stride, pad, imWidth, imHeight);
+			convomat = NumJava.add(NumJava.dot(w,im2col),b);
 			// store it in a map
 			outMapim2col.put(i, convomat);
 		}
@@ -161,14 +161,14 @@ public class layers {
 	 * Date 10-27-2015
 	 */
 	 
-	public Map<String, numjava> conv_backward_naive(Map<Integer,numjava> dout1, Map<String, Object> cache)
+	public Map<String, NumJava> conv_backward_naive(Map<Integer,NumJava> dout1, Map<String, Object> cache)
 	{
 	
-		numjava x  = (numjava)cache.get("x");
-		numjava w = (numjava) cache.get("w");
-		numjava b = (numjava)cache.get("b");
+		NumJava x  = (NumJava)cache.get("x");
+		NumJava w = (NumJava) cache.get("w");
+		NumJava b = (NumJava)cache.get("b");
 		Map<String,Integer> conv_param = (Map<String,Integer>)cache.get("conv_param");
-		Map<Integer,numjava> dout = dout1;
+		Map<Integer,NumJava> dout = dout1;
 		int stride = conv_param.get("stride");
 		int pad = conv_param.get("pad");
 		int filterH = conv_param.get("filterHeight");
@@ -179,38 +179,38 @@ public class layers {
 		int noOfFilters = w.M;
 		int odimWidth = 1 + (conv_param.get("imageWidth")-filterW + 2 * pad)/stride; // output dimension of the convolved image.
 		int odimHeight = 1  + (conv_param.get("imageHeight")-filterH + 2 * pad)/stride;
-		numjava im2col = new numjava(noOfFilters,odimWidth * odimHeight);
+		NumJava im2col = new NumJava(noOfFilters,odimWidth * odimHeight);
 	//	Map<Integer,numjava> outMapim2col = new HashMap<Integer, numjava>();
-		numjava xnew;
+		NumJava xnew;
 		//int val = 0; // setting pad value as zero
 		int imWidth = 32; // Considering 32 by 32 pixel image.
 		int imHeight = 32; // Considering 32 by 32 pixel image.
-		numjava dw = new numjava(w.M,w.N);
-		numjava dx = new numjava(x.M,x.N);
-		numjava db = new numjava(b.M,b.N);
-		numjava x_deconvolve = new numjava (im2col.M,im2col.N); // im2col dimension
-		numjava originalMat = new numjava (x.M,x.N); // Get the image without any padding
+		NumJava dw = new NumJava(w.M,w.N);
+		NumJava dx = new NumJava(x.M,x.N);
+		NumJava db = new NumJava(b.M,b.N);
+		NumJava x_deconvolve = new NumJava (im2col.M,im2col.N); // im2col dimension
+		NumJava originalMat = new NumJava (x.M,x.N); // Get the image without any padding
 		
 		for (int i = 0; i<Nrow ; i++)
 		{
-			xnew = numjava.pad(x.finalmatrix[i], pad, 0 , channels, imWidth, imHeight); // pad the image
+			xnew = NumJava.pad(x.finalmatrix[i], pad, 0 , channels, imWidth, imHeight); // pad the image
 			// make it im2col for dot matrix multiplication.
-			im2col = numjava.im2col(im2col, xnew, odimWidth, odimHeight, channels, filterW, noOfFilters,0, stride, pad, imWidth, imHeight);
-			dw = numjava.add(dw, numjava.dot(dout.get(i),numjava.transpose(im2col)));
-			db = numjava.add(db, numjava.sum(b, 1));
-			x_deconvolve = numjava.dot(numjava.transpose(w),dout.get(i));
-			dx = numjava.deConvolve(originalMat, x_deconvolve, pad, filterW, channels, stride, odimWidth, imHeight, imWidth);
+			im2col = NumJava.im2col(im2col, xnew, odimWidth, odimHeight, channels, filterW, noOfFilters,0, stride, pad, imWidth, imHeight);
+			dw = NumJava.add(dw, NumJava.dot(dout.get(i),NumJava.transpose(im2col)));
+			db = NumJava.add(db, NumJava.sum(b, 1));
+			x_deconvolve = NumJava.dot(NumJava.transpose(w),dout.get(i));
+			dx = NumJava.deConvolve(originalMat, x_deconvolve, pad, filterW, channels, stride, odimWidth, imHeight, imWidth);
 		}
-		Map<String, numjava> ret = new HashMap<String, numjava>();
+		Map<String, NumJava> ret = new HashMap<String, NumJava>();
 		ret.put("dx", dx);
 		ret.put("dw", dw);
 		ret.put("db", db);
 		return ret;
 	}
 	
-	public static float relError(numjava a, numjava b) throws Exception
+	public static float relError(NumJava a, NumJava b) throws Exception
 	{
-		numjava relmat = new numjava(a.M,a.N); 
+		NumJava relmat = new NumJava(a.M,a.N); 
 		for(int i = 0;i<a.M;i++)
 		{
 			for (int j = 0; j< a.N; j++)
@@ -226,7 +226,7 @@ public class layers {
 		
 	}
 	
-	private static float get_Max_Element_Matrix_by_Value(numjava relmat) {
+	private static float get_Max_Element_Matrix_by_Value(NumJava relmat) {
 
 		return 0;
 	}
@@ -243,7 +243,7 @@ public class layers {
 	 * @param pool_img_width whidth of the image after max pooling
 	 * @return Max value of the pixel 
 	 */
-	public  float getMaxValPixel(numjava x, int imgNo, int countColumnStride,int countRowStride, int stride, int orgImgPixel, int colCount, int pool_img_width, int org_img_width)
+	public  float getMaxValPixel(NumJava x, int imgNo, int countColumnStride,int countRowStride, int stride, int orgImgPixel, int colCount, int pool_img_width, int org_img_width)
 	{
 		float [] maxPoolStore =new float [pool_img_width*pool_img_width];
 		int index = 0;
@@ -291,7 +291,7 @@ public class layers {
 	 * @return Position of the pixel that has max value. 
 	 */
 
-	public  int getMaxValPixelPosition(numjava x, int imgNo, int countColumnStride,int countRowStride, int stride, int orgImgPixel, int colCount, int pool_img_width, int org_img_width)
+	public  int getMaxValPixelPosition(NumJava x, int imgNo, int countColumnStride,int countRowStride, int stride, int orgImgPixel, int colCount, int pool_img_width, int org_img_width)
 	{
 
 		int index = 0;
@@ -332,7 +332,7 @@ public class layers {
 	 * @param W Width of the image before doing max pooling
 	 * @return Map consisting of an image after pooling
 	 */
-	public  Map<String,Object> max_pool_forward(numjava x, Map<String,Integer> pool_param, int noOfChannels, int H, int W)
+	public  Map<String,Object> max_pool_forward(NumJava x, Map<String,Integer> pool_param, int noOfChannels, int H, int W)
 	{
 		int pool_height = pool_param.get("pool_height");
 		int pool_width = pool_param.get("pool_width");
@@ -348,7 +348,7 @@ public class layers {
 		int countColumnStride = 0;
 		int countRowStride = 0;
 		int maxPoolImgIndex = 0;
-		numjava maxPool = new numjava (x.M,pool_img_height*pool_img_width); // Array to return after maxpool.
+		NumJava maxPool = new NumJava (x.M,pool_img_height*pool_img_width); // Array to return after maxpool.
 
 		for(int img= 0; img<x.M; img++)  // For all images.
 		{
@@ -396,10 +396,10 @@ public class layers {
 	 * @param noOfChannels Number of channels in the image
 	 * @return Map containing dx values.
 	 */
-	public  Map<String, numjava> max_pool_backward (numjava dout, Map<String,Object> cache, int W, int H, int noOfChannels)
+	public  Map<String, NumJava> max_pool_backward (NumJava dout, Map<String,Object> cache, int W, int H, int noOfChannels)
 	{
-		numjava x = (numjava)cache.get("x");
-		numjava dx = new numjava(x.M,x.N); // output array
+		NumJava x = (NumJava)cache.get("x");
+		NumJava dx = new NumJava(x.M,x.N); // output array
 		Map<String,Integer> pool_param = (Map<String,Integer>)cache.get("pool_param");
 		int pool_width = pool_param.get("pool_width");
 		int pool_height = pool_param.get("pool_height");
@@ -449,7 +449,7 @@ public class layers {
 
 		} // end of first for
 
-		Map<String,numjava> ret = new HashMap<String,numjava>();
+		Map<String,NumJava> ret = new HashMap<String,NumJava>();
 		ret.put("dx", dx);
 		return ret;
 	}	
@@ -459,21 +459,21 @@ public class layers {
 	 * Computing softMax loss
 	 */
 
-	public  Map<String,Object> softmax_loss(numjava x, numjava y)
+	public  Map<String,Object> softmax_loss(NumJava x, NumJava y)
 	{
 		// Computes loss and gradients for softsmax classification.
 
-		numjava probs = new numjava(x.M,x.N);
+		NumJava probs = new NumJava(x.M,x.N);
 		int M = x.M;
 		float max;
 		// subtracting max, so that we do not have large value for exponential, which would be numerically unstable. 
 		for (int i = 0; i<M; i++)
 		{
-			max = numjava.get_Max_Element_Matrix_by_Row(x, i);
-			probs.finalmatrix[i] = numjava.sub(x.finalmatrix[i],max);
+			max = NumJava.get_Max_Element_Matrix_by_Row(x, i);
+			probs.finalmatrix[i] = NumJava.sub(x.finalmatrix[i],max);
 		}
-		probs = numjava.calculate_Exponential(probs);
-		probs = numjava.divide(probs, numjava.sum(probs, 1));
+		probs = NumJava.calculate_Exponential(probs);
+		probs = NumJava.divide(probs, NumJava.sum(probs, 1));
 		float loss = 0;
 		int yVal;
 		//Calculating total loss
@@ -484,7 +484,7 @@ public class layers {
 		}
 		loss = -loss/M;
 
-		numjava dx = numjava.deepCopy(probs); // derivative
+		NumJava dx = NumJava.deepCopy(probs); // derivative
 
 		for (int i = 0; i<M;i++)
 		{
@@ -494,7 +494,7 @@ public class layers {
 
 		}
 
-		dx = numjava.divideByVal(dx, M);
+		dx = NumJava.divideByVal(dx, M);
 
 		Map<String,Object> ret = new HashMap<String,Object>();
 		ret.put("loss", loss);
