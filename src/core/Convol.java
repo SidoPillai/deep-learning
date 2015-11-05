@@ -12,6 +12,7 @@ public class Convol {
 		return matrix[0].length;
 	}
 
+	// test done
 	public double get_Max_Element_Matrix_by_Value(double [][] matrix) throws Exception {
 
 		if(matrix == null) {
@@ -30,6 +31,7 @@ public class Convol {
 		return max;
 	}
 
+	// test done
 	// Returns an array 1st index is row and 2nd is column
 	public int[] get_Arg_Max(double [][] matrix) throws Exception {
 
@@ -53,6 +55,7 @@ public class Convol {
 		return index_Max;
 	}
 
+	// test done
 	public double get_Max_Element_Matrix_by_Row(double [][] matrix, int row_Number) {
 
 		double max = matrix[row_Number][0];
@@ -65,6 +68,7 @@ public class Convol {
 		return max;
 	}
 
+	// test done
 	public double get_Max_Element_Matrix_by_Column(double [][] matrix, int column_Number) {
 
 		double max = matrix[0][column_Number];
@@ -77,6 +81,7 @@ public class Convol {
 		return max;
 	}
 	
+	// test done
 	public double get_Min_Element_Matrix_by_Value(double [][] matrix) throws Exception {
 
 		if(matrix == null) {
@@ -95,6 +100,7 @@ public class Convol {
 		return min;
 	}
 
+	// test done
 	// Returns an array 1st index is row and 2nd is column
 	public int[] get_Min_Element_Matrix_by_Index(double [][] matrix) throws Exception {
 
@@ -118,6 +124,7 @@ public class Convol {
 		return index_Min;
 	}
 
+	// test done
 	public double get_Min_Element_Matrix_by_Row(double [][] matrix, int row_Number) {
 
 		double min = matrix[row_Number][0];
@@ -130,6 +137,7 @@ public class Convol {
 		return min;
 	}
 
+	// test done
 	public double get_Min_Element_Matrix_by_Column(double [][] matrix, int column_Number) {
 
 		double min = matrix[0][column_Number];
@@ -142,10 +150,12 @@ public class Convol {
 		return min;
 	}
 
+	// done
 	public double calculate_Exponential(double elem) {
 		return Math.exp(elem);
 	}
 	
+	//done
 	// transformed with the matrix reference
 	public double [][] transform_Matrix_with_Exponential(double [][] matrix) {
 		
@@ -157,6 +167,7 @@ public class Convol {
 		return matrix;
 	}
 	
+	// done
 	public double [][] copy_Matrix(double [][] matrix) {
 		double [][] cp_Matrix = new double[matrix.length][];
 		
@@ -169,6 +180,7 @@ public class Convol {
 		return cp_Matrix;
 	}
 	
+	// done
 	public double [][] make_Unit_Matrix(double [][] matrix) {
 		
 		for (int row = 0; row < matrix.length; row++) {
