@@ -1,3 +1,5 @@
+package core;
+
 import java.util.Map;
 
 
@@ -9,8 +11,7 @@ public class gradientCheck {
 	 * @param x : X 
 	 * @param df : derivative
 	 */
-	public static numjava evalNumericalGradient_affineLayer( String deriv_wrt, numjava x, numjava w, numjava b, numjava df,float hval)
-	{
+	public static numjava evalNumericalGradient_affineLayer( String deriv_wrt, numjava x, numjava w, numjava b, numjava df,float hval) {
 		
 		numjava grad = new numjava(x.M,x.N);
 		layers l = new layers();
@@ -224,6 +225,7 @@ public class gradientCheck {
 		return grad;
 		
 	}
+}
 	
 
 	

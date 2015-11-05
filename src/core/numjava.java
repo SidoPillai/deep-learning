@@ -1,9 +1,11 @@
+package core;
+
 import java.util.*;
-class numjava
-{
-    private int M;
-    private int N;
-    private float finalmatrix [][];
+class numjava {
+    int M;
+    int N;
+    
+    float finalmatrix [][];
     public numjava(int M,int N)
     {
         this.M=M;
@@ -512,7 +514,7 @@ static int get_Row_Size(double [][] matrix){
 					{
 						for (int j = 0; j<mat1.N; j++)
 						{
-							sum = sum + mat1.finalmatrix[i][j]
+							sum = sum + mat1.finalmatrix[i][j];
 						}
 						mat.finalmatrix[i][0] = sum;
 					}

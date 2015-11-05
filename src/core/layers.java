@@ -1,3 +1,5 @@
+package core;
+
 import java.util.*;
 
 /*
@@ -224,6 +226,11 @@ public class layers {
 		
 	}
 	
+	private static float get_Max_Element_Matrix_by_Value(numjava relmat) {
+
+		return 0;
+	}
+
 	/**
 	 * Get max pixel value when doing max pooling
 	 * @param x Image matrix where every row is a pixel of 3072 if the image size is 32 * 32 
@@ -497,8 +504,3 @@ public class layers {
 
 	
 }	
-	
-
-	
-
-}
