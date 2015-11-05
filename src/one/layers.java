@@ -205,6 +205,25 @@ public class layers {
 		ret.put("db", db);
 		return ret;
 	}
+	
+	public static float relError(numjava a, numjava b) throws Exception
+	{
+		numjava relmat = new numjava(a.M,a.N); 
+		for(int i = 0;i<a.M;i++)
+		{
+			for (int j = 0; j< a.N; j++)
+			{
+				
+						float deno = (float)Math.max(0.00000001,Math.abs(a.finalmatrix[i][j])+Math.abs(b.finalmatrix[i][j]));
+						relmat.finalmatrix[i][j] = Math.abs(a.finalmatrix[i][j]-b.finalmatrix[i][j])/deno;
+			}
+		}
+		float max  = get_Max_Element_Matrix_by_Value(relmat);
+		relmat = null;
+		return max;
+		
+	}
+	
 }	
 	
 
