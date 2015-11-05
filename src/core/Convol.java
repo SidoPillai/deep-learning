@@ -1,16 +1,18 @@
 package core;
 
-public class convol {
+public class Convol {
 	
-	static int get_Row_Size(double [][] matrix){
+	// test done
+	public int get_Row_Size(double [][] matrix){
 		return matrix.length;
 	}
 
-	static int get_Column_Size(double [][] matrix) {
+	// test done
+	public int get_Column_Size(double [][] matrix) {
 		return matrix[0].length;
 	}
 
-	static double get_Max_Element_Matrix_by_Value(double [][] matrix) throws Exception {
+	public double get_Max_Element_Matrix_by_Value(double [][] matrix) throws Exception {
 
 		if(matrix == null) {
 			throw new Exception("Matrix is null");
@@ -29,7 +31,7 @@ public class convol {
 	}
 
 	// Returns an array 1st index is row and 2nd is column
-	static int[] get_Arg_Max(double [][] matrix) throws Exception {
+	public int[] get_Arg_Max(double [][] matrix) throws Exception {
 
 		if(matrix == null) {
 			throw new Exception("Matrix is null");
@@ -51,7 +53,7 @@ public class convol {
 		return index_Max;
 	}
 
-	static double get_Max_Element_Matrix_by_Row(double [][] matrix, int row_Number) {
+	public double get_Max_Element_Matrix_by_Row(double [][] matrix, int row_Number) {
 
 		double max = matrix[row_Number][0];
 
@@ -63,7 +65,7 @@ public class convol {
 		return max;
 	}
 
-	static double get_Max_Element_Matrix_by_Column(double [][] matrix, int column_Number) {
+	public double get_Max_Element_Matrix_by_Column(double [][] matrix, int column_Number) {
 
 		double max = matrix[0][column_Number];
 
@@ -75,7 +77,7 @@ public class convol {
 		return max;
 	}
 	
-	static double get_Min_Element_Matrix_by_Value(double [][] matrix) throws Exception {
+	public double get_Min_Element_Matrix_by_Value(double [][] matrix) throws Exception {
 
 		if(matrix == null) {
 			throw new Exception("Matrix is null");
@@ -94,7 +96,7 @@ public class convol {
 	}
 
 	// Returns an array 1st index is row and 2nd is column
-	static int[] get_Min_Element_Matrix_by_Index(double [][] matrix) throws Exception {
+	public int[] get_Min_Element_Matrix_by_Index(double [][] matrix) throws Exception {
 
 		if(matrix == null) {
 			throw new Exception("Matrix is null");
@@ -116,7 +118,7 @@ public class convol {
 		return index_Min;
 	}
 
-	static double get_Min_Element_Matrix_by_Row(double [][] matrix, int row_Number) {
+	public double get_Min_Element_Matrix_by_Row(double [][] matrix, int row_Number) {
 
 		double min = matrix[row_Number][0];
 
@@ -128,7 +130,7 @@ public class convol {
 		return min;
 	}
 
-	static double get_Min_Element_Matrix_by_Column(double [][] matrix, int column_Number) {
+	public double get_Min_Element_Matrix_by_Column(double [][] matrix, int column_Number) {
 
 		double min = matrix[0][column_Number];
 
@@ -140,12 +142,12 @@ public class convol {
 		return min;
 	}
 
-	static double calculate_Exponential(double elem) {
+	public double calculate_Exponential(double elem) {
 		return Math.exp(elem);
 	}
 	
 	// transformed with the matrix reference
-	static double [][] transform_Matrix_with_Exponential(double [][] matrix) {
+	public double [][] transform_Matrix_with_Exponential(double [][] matrix) {
 		
 		for (int row = 0; row < matrix.length; row++) {
 			for (int column = 0; column < matrix[0].length; column++) {
@@ -155,7 +157,7 @@ public class convol {
 		return matrix;
 	}
 	
-	static double [][] copy_Matrix(double [][] matrix) {
+	public double [][] copy_Matrix(double [][] matrix) {
 		double [][] cp_Matrix = new double[matrix.length][];
 		
 		for(int i = 0; i < matrix.length; i++) {
@@ -167,7 +169,7 @@ public class convol {
 		return cp_Matrix;
 	}
 	
-	static double [][] make_Unit_Matrix(double [][] matrix) {
+	public double [][] make_Unit_Matrix(double [][] matrix) {
 		
 		for (int row = 0; row < matrix.length; row++) {
 			for (int column = 0; column < matrix[0].length; column++) {
