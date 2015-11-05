@@ -224,6 +224,278 @@ public class layers {
 		
 	}
 	
+	/**
+	 * Get max pixel value when doing max pooling
+	 * @param x Image matrix where every row is a pixel of 3072 if the image size is 32 * 32 
+	 * @param imgNo Number of the image 
+	 * @param countColumnStride Width of the max pool filter
+	 * @param countRowStride Height of max pool filter
+	 * @param stride Stride to take
+	 * @param orgImgPixel pixel value position i.e any value between 3072 (if the image is 32 * 32)
+	 * @param colCount every stride which we take while doing max pooling
+	 * @param pool_img_width whidth of the image after max pooling
+	 * @return Max value of the pixel 
+	 */
+	public  float getMaxValPixel(numjava x, int imgNo, int countColumnStride,int countRowStride, int stride, int orgImgPixel, int colCount, int pool_img_width, int org_img_width)
+	{
+		float [] maxPoolStore =new float [pool_img_width*pool_img_width];
+		int index = 0;
+		while (countRowStride < pool_img_width)
+		{
+			while (countColumnStride < pool_img_width)
+			{
+				maxPoolStore[index] =  x.finalmatrix[imgNo][orgImgPixel];
+				countColumnStride++;
+				orgImgPixel++;
+				index++;
+			}
+			countColumnStride = 0;
+			countRowStride++;
+			// So suppose you have a 2*2 filter, we get the [(0,0),(0,1)] and img size is 4 * 4, value store in the array [(1,0),(1,1)] is obtained by skipping the other values
+			//in that row and going to the 1st row to get [(1,0),(1,1)], so adding width below
+			orgImgPixel = stride*colCount + org_img_width; 
+		}
+
+		float max = maxPoolStore[0];
+		// Get the max value of [(0,0),(0,1),(1,0),(1,1)] if it is 2 by 2 pixel.
+		for (int i = 1; i < maxPoolStore.length; i++)
+		{
+			if (max < maxPoolStore[i])
+			{
+				max = maxPoolStore[i];
+			}
+		}
+		maxPoolStore = null;
+		return max;
+
+	}
+
+	/**
+	 * Get the max pixel position, when doing max pool.
+	 * @param x
+	 * @param x Image matrix where every row is a pixel of 3072 if the image size is 32 * 32 
+	 * @param imgNo Number of the image 
+	 * @param countColumnStride Width of the max pool filter
+	 * @param countRowStride Height of max pool filter
+	 * @param stride Stride to take
+	 * @param orgImgPixel pixel value position i.e any value between 3072 (if the image is 32 * 32)
+	 * @param colCount every stride which we take while doing max pooling
+	 * @param pool_img_width whidth of the image after max pooling
+	 * @return Position of the pixel that has max value. 
+	 */
+
+	public  int getMaxValPixelPosition(numjava x, int imgNo, int countColumnStride,int countRowStride, int stride, int orgImgPixel, int colCount, int pool_img_width, int org_img_width)
+	{
+
+		int index = 0;
+		int position=0;
+		float maxVal;
+		float prevMax = -1;
+		while (countRowStride < pool_img_width)
+		{
+			while (countColumnStride < pool_img_width)
+			{
+				maxVal = x.finalmatrix[imgNo][orgImgPixel];
+				// Check which pixel has the max value and assign position of that element and return.
+				if (prevMax<maxVal)
+				{
+					prevMax = maxVal;
+					position = orgImgPixel;
+				}
+				countColumnStride++;
+				orgImgPixel++;
+				index++;
+			}
+			countColumnStride = 0;
+			countRowStride++;
+			// So suppose you have a 2*2 filter, we get the [(0,0),(0,1)] and img size is 4 * 4, value store in the array [(1,0),(1,1)] is obtained by skipping the other values
+			//in that row and going to the 1st row to get [(1,0),(1,1)], so adding width below
+			orgImgPixel = stride*colCount + org_img_width; 
+		}
+		return orgImgPixel;
+
+	}
+
+	/**
+	 * Max pool forward
+	 * @param x Image Matrix
+	 * @param pool_param pooling parameters Map
+	 * @param noOfChannels Number of channels in the image
+	 * @param H Height of the original image before doing max pooling 
+	 * @param W Width of the image before doing max pooling
+	 * @return Map consisting of an image after pooling
+	 */
+	public  Map<String,Object> max_pool_forward(numjava x, Map<String,Integer> pool_param, int noOfChannels, int H, int W)
+	{
+		int pool_height = pool_param.get("pool_height");
+		int pool_width = pool_param.get("pool_width");
+		int stride = pool_param.get("stride");
+		int pool_img_height = ((H-pool_height)/stride) + 1;
+		int pool_img_width = ((W-pool_width)/stride)+1;
+		int org_img_width = W;
+		int org_img_height = H;
+		int channels =1;
+		boolean flag = true;
+		int rowInc = 0;
+		int orgImgPixel = 0;
+		int countColumnStride = 0;
+		int countRowStride = 0;
+		int maxPoolImgIndex = 0;
+		numjava maxPool = new numjava (x.M,pool_img_height*pool_img_width); // Array to return after maxpool.
+
+		for(int img= 0; img<x.M; img++)  // For all images.
+		{
+			for(int rowCount = 0; rowCount<pool_height; rowCount++)
+			{
+				if(flag == true)
+				{
+					rowInc = 0;
+					flag = false;
+				}
+				else
+				{
+					rowInc = rowInc + W * stride; // Basically, for row traversing 
+				}
+				for (int colCount = 0; colCount < pool_width; colCount++)
+				{
+					orgImgPixel = colCount * stride + rowInc; // For column traversing of an image.
+					while (channels <= noOfChannels)
+					{
+						maxPool.finalmatrix[img][maxPoolImgIndex] = getMaxValPixel(x, rowCount, countColumnStride,countRowStride, stride, orgImgPixel, colCount, pool_img_width, org_img_width);
+						// The below statement helps in going from R(1024) -> G(1025 - 2048) -> B ( 2048 - 3072 ) i.e  
+						orgImgPixel = stride * colCount + (org_img_width * org_img_height)*channels;
+						// So here down scaling the image i.e if 32*32 - >16 * 16 img ---> 8 * 8 image, pool_img_width is used 
+						// The below statement helps in going from R(1024) -> G(1025 - 2048) -> B ( 2048 - 3072 )
+						maxPoolImgIndex = colCount + (pool_img_width * pool_img_height)*channels;
+						channels++;
+					}
+					channels = 1;
+				}
+			}
+		}
+
+		Map<String,Object> ret = new HashMap<String, Object>();
+		ret.put("x", maxPool);
+		ret.put("pool_param",pool_param);
+		return ret;
+	}
+
+	/**
+	 * Max pool backward
+	 * @param dout derivative of the pooling layer
+	 * @param cache 
+	 * @param W W Width of the image before doing max pooling
+	 * @param H Height of the original image before doing max pooling 
+	 * @param noOfChannels Number of channels in the image
+	 * @return Map containing dx values.
+	 */
+	public  Map<String, numjava> max_pool_backward (numjava dout, Map<String,Object> cache, int W, int H, int noOfChannels)
+	{
+		numjava x = (numjava)cache.get("x");
+		numjava dx = new numjava(x.M,x.N); // output array
+		Map<String,Integer> pool_param = (Map<String,Integer>)cache.get("pool_param");
+		int pool_width = pool_param.get("pool_width");
+		int pool_height = pool_param.get("pool_height");
+		int stride = pool_param.get("stride");
+		int pool_img_height = ((H-pool_height)/stride) + 1;
+		int pool_img_width = ((W-pool_width)/stride)+1;
+		int org_img_width = W;
+		int channels =1;
+		boolean flag = true;
+		int rowInc = 0;
+		int orgImgPixel = 0;
+		int countColumnStride = 0;
+		int countRowStride = 0;
+		int maxPoolImgIndex = 0;
+		int position;
+
+		for(int img= 0; img<x.M; img++)  // For all images.
+		{
+			for(int rowCount = 0; rowCount<pool_height; rowCount++)
+			{
+				if(flag == true)
+				{
+					rowInc = 0;
+					flag = false;
+				}
+				else
+				{
+					rowInc = rowInc + W * stride; // Basically, for row traversing 
+				}
+				for (int colCount = 0; colCount < pool_width; colCount++)
+				{
+					orgImgPixel = colCount * stride + rowInc; // For column traversing of an image.
+					while (channels <= noOfChannels) // for R,G,B channels
+					{
+						// Get the position of the max value of the pixels, which was obtained when max pooling was done on original image.
+						position = getMaxValPixelPosition(x, rowCount, countColumnStride,countRowStride, stride, orgImgPixel, colCount, pool_img_width, org_img_width);
+
+						// put value at that position, which is there in the derivative matrix dout.
+						dx.finalmatrix[img][position] = dout.finalmatrix[img][maxPoolImgIndex];
+						maxPoolImgIndex = colCount + (pool_img_width * pool_img_height)*channels;
+					}
+					channels++;
+				}
+				channels = 1;
+
+			}		
+
+		} // end of first for
+
+		Map<String,numjava> ret = new HashMap<String,numjava>();
+		ret.put("dx", dx);
+		return ret;
+	}	
+
+
+	/*
+	 * Computing softMax loss
+	 */
+
+	public  Map<String,Object> softmax_loss(numjava x, numjava y)
+	{
+		// Computes loss and gradients for softsmax classification.
+
+		numjava probs = new numjava(x.M,x.N);
+		int M = x.M;
+		float max;
+		// subtracting max, so that we do not have large value for exponential, which would be numerically unstable. 
+		for (int i = 0; i<M; i++)
+		{
+			max = numjava.get_Max_Element_Matrix_by_Row(x, i);
+			probs.finalmatrix[i] = numjava.sub(x.finalmatrix[i],max);
+		}
+		probs = numjava.calculate_Exponential(probs);
+		probs = numjava.divide(probs, numjava.sum(probs, 1));
+		float loss = 0;
+		int yVal;
+		//Calculating total loss
+		for (int i = 0; i<M; i++)
+		{
+			yVal = (int)y.finalmatrix[i][0];
+			loss = loss + probs.finalmatrix[i][yVal];
+		}
+		loss = -loss/M;
+
+		numjava dx = numjava.deepCopy(probs); // derivative
+
+		for (int i = 0; i<M;i++)
+		{
+			yVal = (int)y.finalmatrix[i][0];
+			// For correct class derivative is (e(x)/sum(e(x)))-1 for rest it is e(x)/sum(e(x))
+			dx.finalmatrix[i][yVal] = dx.finalmatrix[i][yVal] - 1;  
+
+		}
+
+		dx = numjava.divideByVal(dx, M);
+
+		Map<String,Object> ret = new HashMap<String,Object>();
+		ret.put("loss", loss);
+		ret.put("dx", dx);
+		return ret;
+	}
+
+	
 }	
 	
 
