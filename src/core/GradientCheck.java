@@ -30,7 +30,7 @@ public class GradientCheck {
 						x.finalmatrix[i][j] = oldval - h;
 						NumJava neg = l.affine_forward(x, w, b).get("x"); // lambda function
 						x.finalmatrix[i][j] = oldval;
-						NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
+						NumJava mat = NumJava.elementMul(NumJava.sub(pos, neg), df);
 						// first sum across rows then across columns to get just one value at 0,0 
 						grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 								// accumulate sum for entire matrix; 
@@ -51,7 +51,7 @@ public class GradientCheck {
 					w.finalmatrix[i][j] = oldval - h;
 					NumJava neg = l.affine_forward(x, w, b).get("out"); // lambda function
 					w.finalmatrix[i][j] = oldval;
-					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementMul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
 					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
@@ -72,7 +72,7 @@ public class GradientCheck {
 					b.finalmatrix[i][j] = oldval - h;
 					NumJava neg = l.affine_forward(x, w, b).get("out"); // lambda function
 					b.finalmatrix[i][j] = oldval;
-					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementMul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
 					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
@@ -103,7 +103,7 @@ public class GradientCheck {
 					x.finalmatrix[i][j] = oldval - h;
 					NumJava neg = l.relu_forward(x).get("out");// lambda function
 					x.finalmatrix[i][j] = oldval;
-					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementMul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
 					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
@@ -137,7 +137,7 @@ public class GradientCheck {
 						x.finalmatrix[i][j] = oldval - h;
 						NumJava neg =  (NumJava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
 						x.finalmatrix[i][j] = oldval;
-						NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
+						NumJava mat = NumJava.elementMul(NumJava.sub(pos, neg), df);
 						// first sum across rows then across columns to get just one value at 0,0 
 						grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 								// accumulate sum for entire matrix; 
@@ -158,7 +158,7 @@ public class GradientCheck {
 					w.finalmatrix[i][j] = oldval - h;
 					NumJava neg =  (NumJava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
 					w.finalmatrix[i][j] = oldval;
-					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementMul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
 					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
@@ -179,7 +179,7 @@ public class GradientCheck {
 					b.finalmatrix[i][j] = oldval - h;
 					NumJava neg =  (NumJava)l.conv_forward_naive(x, w, b, conv_param).get("out");// lambda function
 					b.finalmatrix[i][j] = oldval;
-					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementMul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
 					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 
@@ -213,7 +213,7 @@ public class GradientCheck {
 					x.finalmatrix[i][j] = oldval - h;
 					NumJava neg = (NumJava)l.max_pool_forward(x, pool_param, channels, orgImgWidth, orgImgHeight).get("x");// lambda function
 					x.finalmatrix[i][j] = oldval;
-					NumJava mat = NumJava.elementmul(NumJava.sub(pos, neg), df);
+					NumJava mat = NumJava.elementMul(NumJava.sub(pos, neg), df);
 					// first sum across rows then across columns to get just one value at 0,0 
 					grad.finalmatrix[i][j] = NumJava.divideByVal(NumJava.sum(NumJava.sum(mat, 0),1),2*h).finalmatrix[0][0]; 
 							// accumulate sum for entire matrix; 

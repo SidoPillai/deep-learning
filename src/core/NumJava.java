@@ -1,219 +1,180 @@
 package core;
 
 import java.util.*;
-class NumJava {
-    int M;
-    int N;
-    
-    float finalmatrix [][];
-    public NumJava(int M,int N)
-    {
-        this.M=M;
-        this.N=N;
-        finalmatrix=new float[M][N];
-    }
-    
-    // To create random 2-d array
-    public static NumJava createrandom (int M,int N)
-    {
-        NumJava mat=new NumJava(M,N);
-        for (int i=0;i<M;i++)
-        {
-            for (int j=0;j<N;j++)
-            {
-                mat.finalmatrix[i][j]=(float)Math.random();
-            }
-        }
-            
-        return mat; 
-    }
-    // To print a matrix 
-    public static void print(NumJava mat)
-    {
-        System.out.println(mat.M+" "+mat.N);
-        for (int i=0;i<mat.M;i++)
-        {
-            for (int j=0;j<mat.N;j++)
-            {
-                System.out.printf("%9.4f ", mat.finalmatrix[i][j]);
-            }
-            System.out.println();    
-        }    
-        
-    }
-    
-    //Dot product of 2 matrices
-    public static NumJava dot(NumJava mat1,NumJava mat2)
-    {
-    
-        int M1=mat1.M;
-        int N1=mat1.N;
-        int M2=mat2.M;
-        int N2=mat2.N;
-        
-            if (N1!=M2) throw new RuntimeException("Illegal matrix dimensions");
-           
-        NumJava mat=new NumJava(M1,N2);
-        
-        for (int i=0;i<M1;i++)
-        {
-            for (int j=0;j<N1;j++)
-            {   
-                mat.finalmatrix[i][j]=0;
-                for (int k=0;k<M2;k++)
-                {
-                    mat.finalmatrix[i][j]+=mat1.finalmatrix[i][k]*mat2.finalmatrix[k][j];
-                }
-            }
-        }            
-        return mat;
-    }
-    
-    //Elementwise multiplication
-    public static NumJava elementmul(NumJava mat1,NumJava mat2)
-    {
-        int M1=mat1.M;
-        int N1=mat1.N;
-        int M2=mat2.M;
-        int N2=mat2.N;
-        try
-        {
-            if (N1!=M2)
-            throw new Exception();
-        }
-        
-        catch(Exception e)
-        {
-            System.out.println("Illegal matrix dimension");
-        }
-        
-        NumJava mat=null;
-        if (M1!=M2)
-        {   
-             mat=new NumJava(M2,N1);     
-            for (int i=0;i<M2;i++)
-            {
-            
-                for(int j=0;j<N1;j++)
-                {
-                    mat.finalmatrix[i][j]=mat1.finalmatrix[i][0]*mat2.finalmatrix[0][j];
-                }
-            }
-        }
-        
-        else
-        {
-            mat=new NumJava(M1,N1);
-            for (int i=0;i<M1;i++)
-            {
-                for (int j=0;j<N1;j++)
-                {
-                    mat.finalmatrix[i][j]=mat1.finalmatrix[i][j]*mat2.finalmatrix[i][j];
-                }
-            }
-            
-        }
-        return mat;    
-    } 
-    /*
+
+public class NumJava {
+	int M;
+	int N;
+
+	float finalmatrix [][];
+
+	public NumJava(int M,int N)	{
+		this.M = M;
+		this.N = N;
+		finalmatrix = new float[M][N];
+	}
+
+	// tested
+	// To create random 2-d array
+	public static NumJava createrandom (int M,int N){
+		NumJava mat = new NumJava(M,N);
+		for (int i = 0; i < M; i++) {
+			for (int j = 0; j < N; j++) {
+				mat.finalmatrix[i][j] = (float)Math.random();
+			}
+		}
+		return mat; 
+	}
+
+	// tested
+	// To print a matrix 
+	public static void print(NumJava mat) {
+		System.out.println( mat.M + " " + mat.N);
+		for (int i = 0; i < mat.M; i++) {
+			for (int j = 0;j < mat.N; j++) {
+				System.out.printf("%9.4f ", mat.finalmatrix[i][j]);
+			}
+			System.out.println();    
+		}    
+	}
+
+	// tested
+	//Dot product of 2 matrices
+	public static NumJava dot(NumJava mat1, NumJava mat2) {
+
+		int M1 = mat1.M;
+		int N1 = mat1.N;
+		int M2 = mat2.M;
+		int N2 = mat2.N;
+
+		if (N1 != M2) throw new RuntimeException("Illegal matrix dimensions");
+
+		NumJava mat = new NumJava(M1,N2);
+
+		for (int i = 0; i < M1; i++) {
+			for (int j = 0; j < N1; j++) {   
+
+				mat.finalmatrix[i][j] = 0;
+				for (int k = 0; k < M2; k++) {
+					mat.finalmatrix[i][j] += mat1.finalmatrix[i][k] * mat2.finalmatrix[k][j];
+				}
+			}
+		}            
+		return mat;
+	}
+
+	// tested
+	//Elementwise multiplication
+	public static NumJava elementMul(NumJava mat1, NumJava mat2) {
+		int M1 = mat1.M;
+		int N1 = mat1.N;
+		int M2 = mat2.M;
+		int N2 = mat2.N;
+
+		try {
+			if (N1 != M2) throw new Exception();
+		} catch(Exception e) {
+			System.out.println("Illegal matrix dimension");
+		}
+
+		NumJava mat = null;
+
+		if (M1 != M2) {   
+
+			mat = new NumJava(M2,N1);     
+
+			for (int i = 0; i < M2;i++) {
+				for(int j = 0; j < N1; j++) {
+					mat.finalmatrix[i][j] = mat1.finalmatrix[i][0] * mat2.finalmatrix[0][j];
+				}
+			}
+		} else {
+			mat = new NumJava(M1,N1);
+			for (int i = 0; i < M1; i++) {
+				for (int j = 0; j < N1; j++) {
+					mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] * mat2.finalmatrix[i][j];
+				}
+			}
+		}
+		return mat;    
+	} 
+
+	/*
     public static void shape(float mat1[][])
     {
        return mat1[0].length,mat1[1].length;     
     }
-    */
-    //Reshaping the  matrices
-    public static NumJava reshape(NumJava mat,int M,int N)
-    {
-    
-         int old_M=mat.M;
-         int old_N=mat.N;
-         int counteri=0;
-         int counterj=0;
-         NumJava C=new NumJava(M,N);
-         //try
-          //{
-              if((old_M*old_N)!=(M*N))
-              {
-                
-                   throw new RuntimeException("Cannot reshape");
-                
-              }
-              else 
-              {
-                
-                for (int i=0;i<M;i++)
-                {
-                    for (int j=0;j<N;j++)
-                    {
-                        if (counterj>=old_N)
-                        {
-                            counteri++;
-                            counterj=0;
-                        }
-                        
-                        C.finalmatrix[i][j]=mat.finalmatrix[counteri][counterj];
-                        counterj++;
-                    }
-                        
-                }            
-              
-              }
-              
-              
-          //}    
-         /*
+	 */
+
+
+	//Reshaping the  matrices
+	public static NumJava reshape(NumJava mat,int M,int N) {
+
+		int old_M = mat.M;
+		int old_N = mat.N;
+		int counteri = 0;
+		int counterj = 0;
+
+		NumJava C = new NumJava(M,N);
+		//try
+		//{
+		if((old_M * old_N) != (M * N)) throw new RuntimeException("Cannot reshape");
+		else {
+			for (int i = 0; i < M; i++) {
+				for (int j = 0; j < N; j++) {
+					if (counterj >= old_N) {
+						counteri++;
+						counterj=0;
+					}
+
+					C.finalmatrix[i][j] = mat.finalmatrix[counteri][counterj];
+					counterj++;
+				}
+			}            
+		}
+
+		//}    
+		/*
          catch(Exception e)
          {
          }
-         */       
-         return C;       
-         //   System.out.println("Cannot rehape matrix");
-           
-    }
-    
-    // Creating a matrix
-    public static NumJava creatematrix(float mat[][])
-    {   
-        int M=mat.length;
-        int N=mat[0].length;
-        System.out.println(M+" "+N);
-        NumJava C=new NumJava(M,N);
-        for (int i=0;i<M;i++)
-        {
-            for(int j=0;j<N;j++)
-            {
-                C.finalmatrix[i][j]=mat[i][j];
-                System.out.println(C.finalmatrix[i][j]);
-            }
-        }
-        return C;
-    }
-    
-    //Transposing a matrix
-    public static NumJava transpose(NumJava mat)
-    {
-    
-    NumJava C=new NumJava(mat.N,mat.M);
-//    int counteri=0;
-//    int counterj=0;
-    for (int i=0;i<mat.M;i++)
-    {
-        for (int j=0;j<mat.N;j++)
-        {
-                   
-            C.finalmatrix[j][i]= mat.finalmatrix[i][j];
-            
-        }
-        
-    }
-    return C;
-    }
-          
-          
-          
+		 */       
+		return C;       
+		//   System.out.println("Cannot rehape matrix");
+
+	}
+
+	// Creating a matrix
+	public static NumJava creatematrix(float mat[][]) {   
+		int M = mat.length;
+		int N = mat[0].length;
+		System.out.println(M + " " + N);
+		NumJava C = new NumJava(M,N);
+
+		for (int i = 0; i < M; i++) {
+			for(int j = 0;j < N; j++) {
+				C.finalmatrix[i][j] = mat[i][j];
+				System.out.println(C.finalmatrix[i][j]);
+			}
+		}
+		return C;
+	}
+
+	//Transposing a matrix
+	public static NumJava transpose(NumJava mat) {
+		NumJava C = new NumJava(mat.N,mat.M);
+		//    int counteri=0;
+		//    int counterj=0;
+		for (int i = 0; i < mat.M; i++) {
+			for (int j = 0; j < mat.N; j++) {
+				C.finalmatrix[j][i] = mat.finalmatrix[i][j];
+			}
+		}
+		return C;
+	}
 
 
-/*
+	/*
 static int get_Row_Size(double [][] matrix){
 		return matrix.length;
 	}
@@ -221,7 +182,7 @@ static int get_Row_Size(double [][] matrix){
 	static int get_Column_Size(double [][] matrix) {
 		return matrix[0].length;
 	}
-*/
+	 */
 	static float get_Max_Element_Matrix_by_Value(NumJava matrix) throws Exception {
 
 		if(matrix.finalmatrix == null) {
@@ -248,7 +209,7 @@ static int get_Row_Size(double [][] matrix){
 		}
 
 		float max = matrix.finalmatrix[0][0];
-		
+
 		int[] index_Max = new int[2];
 
 		for (int row = 0; row < matrix.M; row++) {
@@ -279,14 +240,14 @@ static int get_Row_Size(double [][] matrix){
 
 		float max = matrix.finalmatrix[0][column_Number];
 
-		for (int column = 0; column < matrix.N; column++){
+		for (int column = 0; column < matrix.N; column++) {
 			if(matrix.finalmatrix[column][column_Number] > max) {
 				max = matrix.finalmatrix[column][column_Number];
 			}
 		}
 		return max;
 	}
-	
+
 	static float get_Min_Element_Matrix_by_Value(NumJava matrix) throws Exception {
 
 		if(matrix.finalmatrix == null) {
@@ -313,7 +274,7 @@ static int get_Row_Size(double [][] matrix){
 		}
 
 		float min = matrix.finalmatrix[0][0];
-		
+
 		int[] index_Min = new int[2];
 
 		for (int row = 0; row < matrix.M; row++) {
@@ -330,7 +291,7 @@ static int get_Row_Size(double [][] matrix){
 
 	static float get_Min_Element_Matrix_by_Row(NumJava matrix, int row_Number) {
 
-	 float min = matrix.finalmatrix[row_Number][0];
+		float min = matrix.finalmatrix[row_Number][0];
 
 		for (int row = 0; row < matrix.M; row++) {
 			if(matrix.finalmatrix[row_Number][row] > min) {
@@ -355,10 +316,10 @@ static int get_Row_Size(double [][] matrix){
 	static float calculate_Exponential(float elem) {
 		return (float)Math.exp(elem);
 	}
-	
+
 	// transformed with the matrix reference
 	static  NumJava transform_Matrix_with_Exponential(NumJava matrix) {
-		
+
 		for (int row = 0; row < matrix.M; row++) {
 			for (int column = 0; column < matrix.N; column++) {
 				matrix.finalmatrix[row][column] = calculate_Exponential(matrix.finalmatrix[row][column]);
@@ -366,11 +327,11 @@ static int get_Row_Size(double [][] matrix){
 		}
 		return matrix;
 	}
-	
+
 	/*
 	static double [][] copy_Matrix(double [][] matrix) {
 		double [][] cp_Matrix = new double[matrix.length][];
-		
+
 		for(int i = 0; i < matrix.length; i++) {
 		  double[] aMatrix = matrix[i];
 		  int aLength = aMatrix.length;
@@ -379,108 +340,74 @@ static int get_Row_Size(double [][] matrix){
 		}
 		return cp_Matrix;
 	}
-	*/
-	
+	 */
+
 	static NumJava make_Unit_Matrix(NumJava matrix) {
-		
+
 		for (int row = 0; row < matrix.M; row++) {
 			for (int column = 0; column < matrix.N; column++) {
-					matrix.finalmatrix[row][column] = 1;
-				}
+				matrix.finalmatrix[row][column] = 1;
 			}
-		
+		}
 		return matrix;
 	}
-          
-        /**
-     * Adding two matrices
-     * @param mat1 
-     * @param mat2
-     * @return
-     */
-    public static NumJava add(NumJava mat1, NumJava mat2)
-    {
-    	// check for matrix or vector
-    	NumJava mat = null;
-      	if (mat2.M==1)
-    	{
-    		try{
-    			
-        		if (mat1.N == mat2.N)
-	    		{
-		    		mat = new NumJava(mat1.M,mat1.N);
-		    		for (int i=0;i<mat1.M;i++)
-		    		{
-		    			for (int j=0;j<mat1.N;j++)
-		    			{
-		    				mat.finalmatrix[i][j]= mat1.finalmatrix[i][j] + mat2.finalmatrix[0][j];
-		    			}
-		    		}
-	    		}
-    		}
-    		catch (Exception e)
-        	{
-        		
-        		System.out.println("Number of columns should match");
-        	}
-        }
-    		
-    	else if (mat2.N==1)
-    	{
-    		
-	    	try
-	    	{
-	    		
-	    		if (mat1.M==mat2.M)
-	    		{	
-	    			mat = new NumJava (mat1.N,mat1.N);
-		    		for (int j=0;j<mat1.N;j++)
-		    		{
-		    			for (int i=0; i<mat1.M;i++)
-		    			{
-		    				mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] + mat2.finalmatrix[i][0];
+
+	/**
+	 * Adding two matrices
+	 * @param mat1 
+	 * @param mat2
+	 * @return
+	 */
+	public static NumJava add(NumJava mat1, NumJava mat2) {
+		// check for matrix or vector
+		NumJava mat = null;
+		if (mat2.M == 1) {
+			try {
+				if (mat1.N == mat2.N) {
+					mat = new NumJava(mat1.M,mat1.N);
+					for (int i=0;i<mat1.M;i++) {
+						for (int j=0;j<mat1.N;j++) {
+							mat.finalmatrix[i][j]= mat1.finalmatrix[i][j] + mat2.finalmatrix[0][j];
 						}
-		    		}
-	    		}
-	    	}
-	    	catch (Exception e)
-	    	{
-	    	
-	    		System.out.println("Numbers of rows should match");
-	    	}
-	    	
-    	}
-    	
-    	else 
-    	{
-    		
-    		try
-    		{
-	    		if (mat1.M==mat2.M && mat1.N==mat2.N)
-	    		{	
-	    			mat = new NumJava (mat1.M,mat1.N);
-	    			for (int i=0;i<mat1.M;i++)
-	    			{
-	    				for (int j=0;j<mat1.N;j++)
-	    				{
-	    					mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] + mat2.finalmatrix[i][j];
-	    				}
-	    			}
-	    		}
-    		}
-	    	catch (Exception e)
-	    	{
-	    	
-	    		System.out.println("Numbers of rows and colums should match");
-	    	}
-    	}
-    	return mat;
-    }
-     /*
-	* To get sum of elements along row or column
-	* axis = 0 : sum along row 
-	* axis = 1 : sum along column
-	*/
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Number of columns should match");
+			}
+		} else if (mat2.N == 1) {
+			try{
+				if (mat1.M == mat2.M) {	
+					mat = new NumJava (mat1.N,mat1.N);
+					for (int j=0;j<mat1.N;j++) {
+						for (int i=0; i<mat1.M;i++) {
+							mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] + mat2.finalmatrix[i][0];
+						}
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Numbers of rows should match");
+			}
+		} else {
+			try {
+				if (mat1.M==mat2.M && mat1.N==mat2.N) {	
+					mat = new NumJava (mat1.M,mat1.N);
+					for (int i=0;i<mat1.M;i++) {
+						for (int j=0;j<mat1.N;j++) {
+							mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] + mat2.finalmatrix[i][j];
+						}
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Numbers of rows and colums should match");
+			}
+		}
+		return mat;
+	}
+	/*
+	 * To get sum of elements along row or column
+	 * axis = 0 : sum along row 
+	 * axis = 1 : sum along column
+	 */
 	public static NumJava sum(NumJava mat1, int axis)
 	{
 		NumJava mat = null;
@@ -530,9 +457,9 @@ static int get_Row_Size(double [][] matrix){
 
 		return mat;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Calculates exponential values for all the elements in the matrix.
 	 * @param mat
@@ -551,34 +478,29 @@ static int get_Row_Size(double [][] matrix){
 
 		return mat;
 	}
-	
+
 	/**
 	 * Makes a deep copy of the matrix
 	 * @param mat
 	 * @return
 	 */
 
-	public static NumJava deepCopy (NumJava mat)
-	{
+	public static NumJava deepCopy (NumJava mat) {
 		NumJava mat1 = new NumJava(mat.M,mat.N);
-
-		for (int i = 0;i< mat.M; i++)
-		{
+		for (int i = 0;i< mat.M; i++) {
 			mat1.finalmatrix[i] = Arrays.copyOf(mat.finalmatrix[i], mat.finalmatrix[i].length);
 		}
 		return mat1;
 	}
-	
-		/**
+
+	/**
 	 * Subtract val from all the elements of the array.
 	 * @param x
 	 * @param val
 	 * @return
 	 */
-	public static float [] sub(float [] x, float val)
-	{
-		for(int i = 0 ; i<x.length; i++)
-		{
+	public static float [] sub(float [] x, float val) {
+		for(int i = 0 ; i<x.length; i++) {
 			x[i] = x[i] - val;
 		}
 		return x;
@@ -590,29 +512,18 @@ static int get_Row_Size(double [][] matrix){
 	 * @param mat2
 	 * @return
 	 */
-	public static NumJava divide (NumJava mat1, NumJava mat2)
-	{
-		if (mat2.N==1) // mat2 is a vector
-		{
-			for(int i = 0 ;i<mat1.M; i++)
-			{
-				for (int j = 0 ; j<mat1.N; j++)
-				{
+	public static NumJava divide (NumJava mat1, NumJava mat2) {
+		if (mat2.N==1) { // mat2 is a vector 			
+			for(int i = 0 ;i<mat1.M; i++){
+				for (int j = 0 ; j<mat1.N; j++) {
 					// Basically, it is every row of mat1 is getting divide by a value from mat 2 , which is single dimension
 					mat1.finalmatrix[i][j]=mat1.finalmatrix[i][j]/mat2.finalmatrix[i][0];
-
 				}
-
 			}
-		}
-		else if (mat1.N==mat2.N)
-		{
-			for (int i = 0; i<mat1.M;i++)
-			{
-				for(int j = 0; j < mat1.N; j++)
-				{
+		} else if (mat1.N==mat2.N) {
+			for (int i = 0; i<mat1.M;i++) {
+				for(int j = 0; j < mat1.N; j++) {
 					mat1.finalmatrix[i][j] = mat1.finalmatrix[i][j]/mat2.finalmatrix[i][j];
-
 				}
 			}
 		}
@@ -625,25 +536,18 @@ static int get_Row_Size(double [][] matrix){
 	 * @param mat2
 	 * @return
 	 */
-	public static NumJava sub(NumJava mat1, NumJava mat2)
-	{
+	public static NumJava sub(NumJava mat1, NumJava mat2) {
 		//check dimension before subtracting
 		NumJava mat = null;
-		if(mat1.M==mat2.M && mat1.N==mat2.N)
-		{
+		if(mat1.M==mat2.M && mat1.N==mat2.N) {
 			mat = new NumJava(mat1.M,mat1.N);
-
-			for (int i = 0; i< mat1.M; i++)
-			{
-				for(int j = 0; j< mat1.N; j++)
-				{
+			for (int i = 0; i< mat1.M; i++) {
+				for(int j = 0; j< mat1.N; j++) {
 					mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] - mat2.finalmatrix[i][j]; 
 				}
 			}
 		}
 		return mat;
-
-
 	}
 
 	/**
@@ -652,27 +556,23 @@ static int get_Row_Size(double [][] matrix){
 	 * @param val
 	 * @return
 	 */
-	public static NumJava divideByVal (NumJava mat1, float val)
-	{
-		for(int i = 0 ;i<mat1.M; i++)
-		{
-			for (int j = 0 ; j<mat1.N; j++)
-			{
+	public static NumJava divideByVal (NumJava mat1, float val) {
+		for(int i = 0 ;i<mat1.M; i++) {
+			for (int j = 0 ; j<mat1.N; j++) {
 				// Basically, it is every row of mat1 is getting divide by a value from mat 2 , which is single dimension
 				mat1.finalmatrix[i][j]=mat1.finalmatrix[i][j]/val;
 			}
-
 		}
 		return mat1;
 	}
 
-	
+
 	/*
 	 * The functionis used to convert image to column. (im2col)
 	 *
 	 */
-	public static NumJava im2col(NumJava mat1, NumJava mat, int odimWidth,int odimHeight,int channels, int filterSize, int noOfFilters, int imindex, int stride, int pad, int widthBefPad,int heigthBefPad )
-	{
+	public static NumJava im2col(NumJava mat1, NumJava mat, int odimWidth,int odimHeight,int channels, int filterSize, 
+			int noOfFilters, int imindex, int stride, int pad, int widthBefPad,int heigthBefPad ) {
 		//numjava matim2col = new numjava(noOfFilters, odimWidth*odimHeight);
 		NumJava matim2col = mat1;
 		int col = 0;
@@ -689,31 +589,23 @@ static int get_Row_Size(double [][] matrix){
 		int totalIter = filterSize * filterSize;
 		int pixelsToMove = (widthBefPad*heigthBefPad)+(widthBefPad*pad*2)+(heigthBefPad*pad*2)+((pad*pad)*4); // To move to another channel(Total 32*32 + padding pixels) 
 		//int pixelsToMove = 
-		for (int rowCount = 0; rowCount<imHeight; rowCount++)
-		{
-			if(flag == true)
-			{
+		for (int rowCount = 0; rowCount<imHeight; rowCount++) {
+			if(flag == true) {
 				rowInc = 0;
 				flag = false;
-			}
-			else
-			{
+			} else {
 				rowInc = rowInc  + (widthBefPad+2*pad)*stride; // Traverse or take stride vertically and continue with column stride,because now the image is just a single row of pixels RGB.
 			}
 			temp = rowInc; 
-			for (int colCount = 0; colCount<imWidth; colCount++)
-			{
+			for (int colCount = 0; colCount<imWidth; colCount++) {
 				channelCount = 0;
 				iterCount = 0;
 				//i = rowCount;
 				j = rowInc ;
 				mul = 1;
 				imrowCount = 0;
-				while (channelCount<channels)
-				{
-
-					while(iterCount<totalIter)
-					{
+				while (channelCount<channels) {
+					while(iterCount<totalIter) {
 						//						matim2col.finalmatrix[imrowCount][col] = mat.finalmatrix[imindex][j];
 						//						matim2col.finalmatrix[++imrowCount][col] = mat.finalmatrix[imindex][j+1];
 						//						matim2col.finalmatrix[++imrowCount][col] = mat.finalmatrix[imindex][j+2];
@@ -726,16 +618,14 @@ static int get_Row_Size(double [][] matrix){
 						{
 							//j=j+(imWidth-filterSize)+1; // Get the next position RGB rows
 							j = j + ((widthBefPad+2*pad)-filterSize);
-						}
-						else
-						{
+						} else {
 							j++;  // increment every pixel value
 						}
 						imrowCount++;   // For 3*3 filter this will go till 9 For R, 9-18 for G, 18-27 G.
 						iterCount++;
 					}
 					iterCount = 0;
-					
+
 					j = rowInc + (pixelsToMove*mul); // Go from R(0-1023) to G (1024-2047) to B (2048-3071)
 					mul++; // 1 for R, 2 for G
 					channelCount++; // Increment the channel, go to next channel
@@ -743,33 +633,26 @@ static int get_Row_Size(double [][] matrix){
 				rowInc = rowInc + stride; // Take stride to the right 
 				imrowCount = 0; // New value to be calculated for the next column so initialize back to zero 
 				col++; // Increment the column 
-
-
 			}
 			rowInc = temp; // initialize it back to the original value, for  vertical stride.
-
 		}
-
 		return matim2col;
 	}
 
-  	public static NumJava pad (float [] mat, int pad , int val, int channels, int imWidth, int imHeight)
-	{
+	public static NumJava pad (float [] mat, int pad , int val, int channels, int imWidth, int imHeight) {
 		//int M = mat.M + pad*2; // evenly padding both horizontal sides the sides of the image.
 		//int N = mat.N + pad*2;// evenly padding both vertical sides of the image.
 		int N = (imWidth*imHeight)+(imWidth*pad*2)+(imHeight*pad*2)+((pad*pad)*4); //(4 for 4 corners) (Total pixels after padding)
 		NumJava matpad = new NumJava (1,N);
 		int channelCount = 0;
-//		boolean flag = true;
+		//		boolean flag = true;
 		int count=0;
 		int padval = val;
-//		int iter = pad*2*imWidth;
+		//		int iter = pad*2*imWidth;
 		int j=0;
 		int orgcount=0;
-		while (channelCount<channels)
-		{
-			for (int i=0;i<(imHeight+pad*2);i++)
-			{
+		while (channelCount<channels) {
+			for (int i=0;i<(imHeight+pad*2);i++) {
 				if(i<pad || i>=((imHeight+pad)))    // for first and last row padding 
 				{
 					while (count<(imWidth+pad*2))   // Do it for all columns 
@@ -779,9 +662,7 @@ static int get_Row_Size(double [][] matrix){
 						j++;
 					}
 					count=0;
-				}
-				else
-				{
+				} else {
 					while(count<pad)      // for first/second...pad cols
 					{	
 						matpad.finalmatrix[0][j] = padval;
@@ -799,29 +680,25 @@ static int get_Row_Size(double [][] matrix){
 					count=0;
 					while(count<pad)     // again for last cols padding.
 					{
-						
 						matpad.finalmatrix[0][j] = padval;
 						count++;
 						j++;
 					}
-					
 					count=0;
 				}
 				//j++;
 			}
 			channelCount++; // For the next channel.
-
 		}
 		return matpad;
-		
 	}
-	
+
 	/**
 	 * To get back original image without any padding and convolution.
 	 */ 
-	
-	public static NumJava deConvolve (NumJava originalmat,NumJava mat, int p, int filterWidth, int channels, int stride, int odimWidth, int imHeightVal, int imWidthVal)
-	{
+
+	public static NumJava deConvolve (NumJava originalmat,NumJava mat, int p, int filterWidth, 
+			int channels, int stride, int odimWidth, int imHeightVal, int imWidthVal) {
 		int channelCount = 0;
 		int imHeight =  imHeightVal; // original image height
 		int imWidth = imWidthVal;    // original image width
@@ -841,25 +718,20 @@ static int get_Row_Size(double [][] matrix){
 		//int N = ((imWidth*imHeight)+(imWidth*pad*2)+(imHeight*pad*2)+((pad*pad)*4))*channels; //(4 for 4 corners) (Total pixels after padding)
 		int N = (pixelsToMove)*channels;
 		NumJava matcol2im = new NumJava (1,N);  // array with padded pixels
-		for (int colCount = 0; colCount<col; colCount++)
-		{
+		for (int colCount = 0; colCount<col; colCount++) {
 
 			if(colCount!=0)   // For checking whether we have traversed to the end of the image width
 			{
 				// If started from row zero , then once the end of the width is reached mov eto row one, then to row two ......
-				if ((colCount)%odimWidth == 0)
-				{
+				if ((colCount)%odimWidth == 0) {
 					cCount++; // To track the complete width traversing (i.e In a 5*5 matrix, after traversing across 5 columns move to next row )
 					rowInc = ((widthBefPad+2*pad)*stride)*cCount;  // Traverse  row wise (i.e when 5 * 5 , width 5 is covered move to next row and  start traversing)
-				}
-				else
-				{
+				} else {
 					rowInc=rowInc+stride; // for horizontal stride across ones you switch to a new row.
 				}
 			}
 			j = rowInc;
-			for (int rowCount = 0; rowCount<row; rowCount++)
-			{
+			for (int rowCount = 0; rowCount<row; rowCount++) {
 				if(rCount<iterFilter)   // Signify end of first column (i.e all the 9 values of R, B and G are added)
 				{
 					// For 3 by 3 filter it will go to fisrt 3 Red pixels then the next 3 and then the next 3 , row wise, Imagine a square block
@@ -877,8 +749,7 @@ static int get_Row_Size(double [][] matrix){
 					rCount++;
 
 				}
-				else
-				{
+				else {
 					j = rowInc + pixelsToMove;
 					rCount = 0;
 				}
@@ -945,35 +816,35 @@ static int get_Row_Size(double [][] matrix){
 		return matpad;
 	}
 
-          
-          
-    public static void main(String args[])
-    {
-        try 
-        {
-        
-        
-        NumJava x1=NumJava.creatematrix(new float[][]{{1,2,3},{4,5,6},{9,8,7}});
-        NumJava x2=NumJava.creatematrix(new float[][]{{1,2,3},{4,5,6},{9,8,7}});
-        NumJava.print(x1);
-       
-        System.out.println("Max element by Value :"+NumJava.get_Max_Element_Matrix_by_Value(x1));
-        System.out.println("Max_Argument :"+NumJava.get_Arg_Max(x1)[0]+" "+NumJava.get_Arg_Max(x1)[1]);
-        System.out.println("Max_element by row :"+NumJava.get_Max_Element_Matrix_by_Row(x1, 1));
-        System.out.println("Max element by column :"+NumJava.get_Max_Element_Matrix_by_Column(x1,1));
-        System.out.println("Min elemet by Value :"+NumJava.get_Min_Element_Matrix_by_Value(x1));
-        System.out.println("Min elemet by Index :"+NumJava.get_Min_Element_Matrix_by_Index(x1)[0]+" "+NumJava.get_Min_Element_Matrix_by_Index(x1)[1]);
-        System.out.println("Min elemet by row :"+NumJava.get_Min_Element_Matrix_by_Row(x1, 1));
-        System.out.println("Min elemet by column :"+NumJava.get_Min_Element_Matrix_by_Column(x1, 1));
-        NumJava.print(NumJava.transform_Matrix_with_Exponential(x1)); 
-        NumJava.print(NumJava.make_Unit_Matrix(x1));   
-     
-        }
-        
-        catch(Exception e)
-        {
-        e.printStackTrace();
-        //System.exit(0);
-        }
-    }	
+
+
+	public static void main(String args[])
+	{
+		try 
+		{
+
+
+			NumJava x1=NumJava.creatematrix(new float[][]{{1,2,3},{4,5,6},{9,8,7}});
+			NumJava x2=NumJava.creatematrix(new float[][]{{1,2,3},{4,5,6},{9,8,7}});
+			NumJava.print(x1);
+
+			System.out.println("Max element by Value :"+NumJava.get_Max_Element_Matrix_by_Value(x1));
+			System.out.println("Max_Argument :"+NumJava.get_Arg_Max(x1)[0]+" "+NumJava.get_Arg_Max(x1)[1]);
+			System.out.println("Max_element by row :"+NumJava.get_Max_Element_Matrix_by_Row(x1, 1));
+			System.out.println("Max element by column :"+NumJava.get_Max_Element_Matrix_by_Column(x1,1));
+			System.out.println("Min elemet by Value :"+NumJava.get_Min_Element_Matrix_by_Value(x1));
+			System.out.println("Min elemet by Index :"+NumJava.get_Min_Element_Matrix_by_Index(x1)[0]+" "+NumJava.get_Min_Element_Matrix_by_Index(x1)[1]);
+			System.out.println("Min elemet by row :"+NumJava.get_Min_Element_Matrix_by_Row(x1, 1));
+			System.out.println("Min elemet by column :"+NumJava.get_Min_Element_Matrix_by_Column(x1, 1));
+			NumJava.print(NumJava.transform_Matrix_with_Exponential(x1)); 
+			NumJava.print(NumJava.make_Unit_Matrix(x1));   
+
+		}
+
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			//System.exit(0);
+		}
+	}	
 }   

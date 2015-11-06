@@ -4,7 +4,6 @@ import java.util.Random;
 
 import core.Convol;
 
-
 public class ConvolTest {
 
 	static Random random = new Random();
