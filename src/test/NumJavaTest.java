@@ -54,5 +54,37 @@ public class NumJavaTest {
 		NumJava.sub(matrix1, matrix2).printMe();
 		System.out.println("Divide by val");
 		NumJava.divideByVal(matrix1,2).printMe();
+		
+		NumJava obj2 = new NumJava(3,3);
+		obj2.finalmatrix = matrix1.finalmatrix;
+		obj2.printMe();
+		matrix1.printMe();
+		
+		System.out.println("Image to column");
+		
+		float z[] = new float[] { (float)1.0, (float)2.0, (float)1.0, (float)2.0, (float)2.0,
+				 (float)0.0, (float)2.0, (float)2.0, (float)1.0, (float)0.0,
+				 (float)0.0, (float)2.0, (float)2.0, (float)2.0, (float)0.0,
+				 (float)1.0, (float)0.0, (float)0.0, (float)2.0, (float)0.0,
+				 (float)1.0, (float)0.0, (float)0.0, (float)1.0, (float)2.0};
+		
+		float[][] y = new float [1][25];
+		y[0] = z;
+		
+		NumJava newMat = NumJava.pad(y[0], 1, 0, 1, 5, 5);
+		newMat.printMe();
+		
+		NumJava data = new NumJava(9, 9);
+//		int odimWidth = 1 + (conv_param.get("imageWidth")-filterW + 2 * pad)/stride; // output dimension of the convolved image.
+//		int odimHeight = 1  + (conv_param.get("imageHeight")-filterH + 2 * pad)/stride;
+
+		
+		NumJava nw = NumJava.im2col(data, newMat, 3, 3, 1, 3, 1, 0, 2, 1, 5, 5);
+		nw.printMe();
+		
+		System.out.println("Deconvolve");
+		NumJava data2 = new NumJava(5, 5);
+		NumJava data3 = NumJava.deConvolve(data2, nw, 1, 3, 1, 2, 3, 5, 5);
+		data3.printMe();
 	}
 }

@@ -570,20 +570,24 @@ static int get_Row_Size(double [][] matrix){
 		return mat1;
 	}
 
-
-	/*
+	// tested
+	/**
 	 * The functionis used to convert image to column. (im2col)
-	 *
+	 * channels - rgb
+	 * filtersize - filter matrix dimensions
+	 * stride - shift value
+	 * pad - padding factor
+	 * 
 	 */
-	public static NumJava im2col(NumJava mat1, NumJava mat, int odimWidth,int odimHeight,int channels, int filterSize, 
+	public static NumJava im2col(NumJava newMatrix, NumJava mat, int newdimWidth,int newdimHeight,int channels, int filterSize, 
 			int noOfFilters, int imindex, int stride, int pad, int widthBefPad,int heigthBefPad ) {
 		//numjava matim2col = new numjava(noOfFilters, odimWidth*odimHeight);
-		NumJava matim2col = mat1;
+		NumJava matim2col = newMatrix;
 		int col = 0;
 		int rowInc = 0;
 		boolean flag = true;
-		int imHeight = odimHeight;
-		int imWidth = odimWidth;
+		int imHeight = newdimHeight;
+		int imWidth = newdimWidth;
 		int channelCount=0;
 		int iterCount = 0;
 		int j;
@@ -621,7 +625,7 @@ static int get_Row_Size(double [][] matrix){
 						if((imrowCount+1)%filterSize==0) //imrowCount will be  multiple of the filters width.
 						{
 							//j=j+(imWidth-filterSize)+1; // Get the next position RGB rows
-							j = j + ((widthBefPad+2*pad)-filterSize);
+							j = j + ((widthBefPad+2*pad)-filterSize)+1;
 						} else {
 							j++;  // increment every pixel value
 						}
@@ -643,6 +647,7 @@ static int get_Row_Size(double [][] matrix){
 		return matim2col;
 	}
 
+	// tested
 	/**
 	 * 
 	 * @param mat
@@ -710,7 +715,6 @@ static int get_Row_Size(double [][] matrix){
 	/**
 	 * To get back original image without any padding and convolution.
 	 */ 
-
 	public static NumJava deConvolve (NumJava originalmat,NumJava mat, int p, int filterWidth, 
 			int channels, int stride, int odimWidth, int imHeightVal, int imWidthVal) {
 		int channelCount = 0;
@@ -746,29 +750,34 @@ static int get_Row_Size(double [][] matrix){
 			}
 			j = rowInc;
 			for (int rowCount = 0; rowCount<row; rowCount++) {
-				if(rCount<iterFilter)   // Signify end of first column (i.e all the 9 values of R, B and G are added)
-				{
-					// For 3 by 3 filter it will go to fisrt 3 Red pixels then the next 3 and then the next 3 , row wise, Imagine a square block
-					if(count<filterW)
+				
+			
+					if(rCount<iterFilter)   // Signify end of first column (i.e all the 9 values of R, B and G are added)
 					{
-						matcol2im.finalmatrix[0][j] = mat.finalmatrix[rowCount][colCount];
-						j++;
-						count++;
+						// For 3 by 3 filter it will go to fisrt 3 Red pixels then the next 3 and then the next 3 , row wise, Imagine a square block
+						if(count<filterW)
+						{
+							matcol2im.finalmatrix[0][j] = mat.finalmatrix[rowCount][colCount];
+							j++;
+							count++;
+						}
+						else
+						{
+							j = j + ((widthBefPad+2*pad)-filterW);
+							count = 0;
+						}
+						rCount++;
+	
 					}
-					else
-					{
-						j = j + ((widthBefPad+2*pad)-filterW);
-						count = 0;
+					else {
+						
+							j = rowInc + pixelsToMove;
+							rCount = 0;
 					}
-					rCount++;
-
 				}
-				else {
-					j = rowInc + pixelsToMove;
-					rCount = 0;
-				}
+				
 			}
-		}
+		
 
 		// Now get back the original image.
 

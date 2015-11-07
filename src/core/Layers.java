@@ -114,6 +114,8 @@ public class Layers {
 		return ret;
 
 	}
+	
+	
 	/**
 	 * Compute convolution forward propagation. 
 	*/
