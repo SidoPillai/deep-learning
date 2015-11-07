@@ -6,7 +6,7 @@ public class NumJava {
 	int M;
 	int N;
 
-	float finalmatrix [][];
+	public float finalmatrix [][];
 
 	public NumJava(int M,int N)	{
 		this.M = M;
@@ -144,6 +144,7 @@ public class NumJava {
 
 	}
 
+	// tested
 	// Creating a matrix
 	public static NumJava creatematrix(float mat[][]) {   
 		int M = mat.length;
@@ -160,6 +161,7 @@ public class NumJava {
 		return C;
 	}
 
+	// tested
 	//Transposing a matrix
 	public static NumJava transpose(NumJava mat) {
 		NumJava C = new NumJava(mat.N,mat.M);
@@ -183,6 +185,8 @@ static int get_Row_Size(double [][] matrix){
 		return matrix[0].length;
 	}
 	 */
+
+	// tested
 	static float get_Max_Element_Matrix_by_Value(NumJava matrix) throws Exception {
 
 		if(matrix.finalmatrix == null) {
@@ -201,6 +205,7 @@ static int get_Row_Size(double [][] matrix){
 		return max;
 	}
 
+	// tested
 	// Returns an array 1st index is row and 2nd is column
 	static int[] get_Arg_Max(NumJava matrix) throws Exception {
 
@@ -224,6 +229,7 @@ static int get_Row_Size(double [][] matrix){
 		return index_Max;
 	}
 
+	// tested
 	static float get_Max_Element_Matrix_by_Row(NumJava matrix, int row_Number) {
 
 		float max = matrix.finalmatrix[row_Number][0];
@@ -236,6 +242,7 @@ static int get_Row_Size(double [][] matrix){
 		return max;
 	}
 
+	// tested
 	static float get_Max_Element_Matrix_by_Column(NumJava matrix, int column_Number) {
 
 		float max = matrix.finalmatrix[0][column_Number];
@@ -248,6 +255,7 @@ static int get_Row_Size(double [][] matrix){
 		return max;
 	}
 
+	// tested
 	static float get_Min_Element_Matrix_by_Value(NumJava matrix) throws Exception {
 
 		if(matrix.finalmatrix == null) {
@@ -266,6 +274,7 @@ static int get_Row_Size(double [][] matrix){
 		return min;
 	}
 
+	// tested
 	// Returns an array 1st index is row and 2nd is column
 	static int[] get_Min_Element_Matrix_by_Index(NumJava matrix) throws Exception {
 
@@ -289,6 +298,7 @@ static int get_Row_Size(double [][] matrix){
 		return index_Min;
 	}
 
+	// tested
 	static float get_Min_Element_Matrix_by_Row(NumJava matrix, int row_Number) {
 
 		float min = matrix.finalmatrix[row_Number][0];
@@ -301,6 +311,7 @@ static int get_Row_Size(double [][] matrix){
 		return min;
 	}
 
+	// tested
 	static float get_Min_Element_Matrix_by_Column(NumJava matrix, int column_Number) {
 
 		float min = matrix.finalmatrix[0][column_Number];
@@ -313,10 +324,12 @@ static int get_Row_Size(double [][] matrix){
 		return min;
 	}
 
+	// tested
 	static float calculate_Exponential(float elem) {
 		return (float)Math.exp(elem);
 	}
 
+	// tested
 	// transformed with the matrix reference
 	static  NumJava transform_Matrix_with_Exponential(NumJava matrix) {
 
@@ -342,6 +355,7 @@ static int get_Row_Size(double [][] matrix){
 	}
 	 */
 
+	// tested
 	static NumJava make_Unit_Matrix(NumJava matrix) {
 
 		for (int row = 0; row < matrix.M; row++) {
@@ -352,6 +366,7 @@ static int get_Row_Size(double [][] matrix){
 		return matrix;
 	}
 
+	// tested
 	/**
 	 * Adding two matrices
 	 * @param mat1 
@@ -403,58 +418,45 @@ static int get_Row_Size(double [][] matrix){
 		}
 		return mat;
 	}
-	/*
+
+	// tested
+	/**
 	 * To get sum of elements along row or column
 	 * axis = 0 : sum along row 
 	 * axis = 1 : sum along column
 	 */
-	public static NumJava sum(NumJava mat1, int axis)
-	{
+	public static NumJava sum(NumJava mat1, int axis) {
 		NumJava mat = null;
 		float sum = 0;
-		try 
-		{
 
-			if (mat1.finalmatrix!=null)
-			{
-				if (axis == 0)
-				{
+		try {
+
+			if (mat1.finalmatrix != null) {
+				if (axis == 0) {
 
 					// sum along row axis
 					mat = new NumJava(1,mat1.N);
-					for (int j = 0 ;j<mat1.M ; j++)
-					{
-						for (int i = 0; i<mat1.N; i++)
-						{
+					for (int j = 0 ; j < mat1.M ; j++) {
+						for (int i = 0; i < mat1.N; i++) {
 							sum = sum + mat1.finalmatrix[i][j];	
 						}
 						mat.finalmatrix[0][j] = sum;
 					}
-
-				}
-				else if (axis == 1) 
-				{
+				} else if (axis == 1) {
 					// add along column axis
 
 					mat = new NumJava(mat1.M,1);
-					for (int i = 0; i< mat1.M; i++)
-					{
-						for (int j = 0; j<mat1.N; j++)
-						{
+					for (int i = 0; i< mat1.M; i++) {
+						for (int j = 0; j<mat1.N; j++) {
 							sum = sum + mat1.finalmatrix[i][j];
 						}
 						mat.finalmatrix[i][0] = sum;
 					}
-
 				}
-
 			}
-		}
-		catch (NullPointerException e)
-		{
+		} catch (NullPointerException e) {
 			System.out.println("Null pointer exception");
 		}
-
 		return mat;
 	}
 
@@ -465,13 +467,11 @@ static int get_Row_Size(double [][] matrix){
 	 * @param mat
 	 * @return
 	 */
-
+	// tested
 	public static NumJava calculate_Exponential(NumJava mat) {
 
-		for(int i = 0; i<mat.M;i++)
-		{
-			for (int j = 0; j< mat.N; j++)
-			{
+		for(int i = 0; i<mat.M;i++) {
+			for (int j = 0; j< mat.N; j++) {
 				mat.finalmatrix[i][j] = (float)Math.exp(mat.finalmatrix[i][j]);
 			}
 		}
@@ -484,7 +484,7 @@ static int get_Row_Size(double [][] matrix){
 	 * @param mat
 	 * @return
 	 */
-
+	// tested
 	public static NumJava deepCopy (NumJava mat) {
 		NumJava mat1 = new NumJava(mat.M,mat.N);
 		for (int i = 0;i< mat.M; i++) {
@@ -499,6 +499,7 @@ static int get_Row_Size(double [][] matrix){
 	 * @param val
 	 * @return
 	 */
+	// tested
 	public static float [] sub(float [] x, float val) {
 		for(int i = 0 ; i<x.length; i++) {
 			x[i] = x[i] - val;
@@ -506,30 +507,32 @@ static int get_Row_Size(double [][] matrix){
 		return x;
 	}
 
+	// tested
 	/**
 	 * Divide a matrix by another matrix
 	 * @param mat1
 	 * @param mat2
 	 * @return
 	 */
-	public static NumJava divide (NumJava mat1, NumJava mat2) {
-		if (mat2.N==1) { // mat2 is a vector 			
-			for(int i = 0 ;i<mat1.M; i++){
-				for (int j = 0 ; j<mat1.N; j++) {
+	public static NumJava divide(NumJava mat1, NumJava mat2) {
+		if (mat2.N == 1) { // mat2 is a vector 			
+			for(int i = 0 ; i < mat1.M; i++){
+				for (int j = 0 ; j < mat1.N; j++) {
 					// Basically, it is every row of mat1 is getting divide by a value from mat 2 , which is single dimension
-					mat1.finalmatrix[i][j]=mat1.finalmatrix[i][j]/mat2.finalmatrix[i][0];
+					mat1.finalmatrix[i][j] = mat1.finalmatrix[i][j] / mat2.finalmatrix[i][0];
 				}
 			}
-		} else if (mat1.N==mat2.N) {
-			for (int i = 0; i<mat1.M;i++) {
+		} else if (mat1.N == mat2.N) {
+			for (int i = 0; i < mat1.M; i++) {
 				for(int j = 0; j < mat1.N; j++) {
-					mat1.finalmatrix[i][j] = mat1.finalmatrix[i][j]/mat2.finalmatrix[i][j];
+					mat1.finalmatrix[i][j] = mat1.finalmatrix[i][j] / mat2.finalmatrix[i][j];
 				}
 			}
 		}
 		return mat1;
 	}
 
+	//tested
 	/**
 	 * Subtract a matrix from another matrix
 	 * @param mat1
@@ -539,10 +542,10 @@ static int get_Row_Size(double [][] matrix){
 	public static NumJava sub(NumJava mat1, NumJava mat2) {
 		//check dimension before subtracting
 		NumJava mat = null;
-		if(mat1.M==mat2.M && mat1.N==mat2.N) {
+		if(mat1.M == mat2.M && mat1.N == mat2.N) {
 			mat = new NumJava(mat1.M,mat1.N);
-			for (int i = 0; i< mat1.M; i++) {
-				for(int j = 0; j< mat1.N; j++) {
+			for (int i = 0; i < mat1.M; i++) {
+				for(int j = 0; j < mat1.N; j++) {
 					mat.finalmatrix[i][j] = mat1.finalmatrix[i][j] - mat2.finalmatrix[i][j]; 
 				}
 			}
@@ -550,13 +553,14 @@ static int get_Row_Size(double [][] matrix){
 		return mat;
 	}
 
+	//tested
 	/**
 	 * Divide a matrix by element
 	 * @param mat1
 	 * @param val
 	 * @return
 	 */
-	public static NumJava divideByVal (NumJava mat1, float val) {
+	public static NumJava divideByVal(NumJava mat1, float val) {
 		for(int i = 0 ;i<mat1.M; i++) {
 			for (int j = 0 ; j<mat1.N; j++) {
 				// Basically, it is every row of mat1 is getting divide by a value from mat 2 , which is single dimension
@@ -639,6 +643,16 @@ static int get_Row_Size(double [][] matrix){
 		return matim2col;
 	}
 
+	/**
+	 * 
+	 * @param mat
+	 * @param pad
+	 * @param val
+	 * @param channels
+	 * @param imWidth
+	 * @param imHeight
+	 * @return
+	 */
 	public static NumJava pad (float [] mat, int pad , int val, int channels, int imWidth, int imHeight) {
 		//int M = mat.M + pad*2; // evenly padding both horizontal sides the sides of the image.
 		//int N = mat.N + pad*2;// evenly padding both vertical sides of the image.
@@ -846,5 +860,16 @@ static int get_Row_Size(double [][] matrix){
 			e.printStackTrace();
 			//System.exit(0);
 		}
+	}
+
+	// tested
+	public void printMe() {
+		System.out.println( finalmatrix.length + " " + finalmatrix[0].length);
+		for (int i = 0; i < finalmatrix.length; i++) {
+			for (int j = 0;j < finalmatrix[0].length; j++) {
+				System.out.printf("%9.4f ", finalmatrix[i][j]);
+			}
+			System.out.println();    
+		}    
 	}	
 }   
