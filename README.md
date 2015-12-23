@@ -10,7 +10,7 @@ Work is still in progress. Keep an eye on the project for updates.
 2. Siddesh Pillai
 
 
-Sequential code
+Sequential code: 
 Download files and CIFAR data set.
 Set path and train the system
 
